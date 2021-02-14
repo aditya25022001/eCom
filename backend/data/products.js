@@ -72,4 +72,4 @@ const products =[
         numReviews:15
     }
 ];
-export default products;
+module.exports = products;
