@@ -11,15 +11,18 @@ export const Product = ({product}) => {
             </Link>
             <Card.Body>
                 <Link to={`/product/${product._id}`}>
-                    <Card.Title as='div'><stromg>{product.name}</stromg></Card.Title>
+                    <Card.Title as='div'>{product.name}</Card.Title>
                 </Link>
                 <Card.Text as='div'>
+                    <b style={{ fontWeight:600 }}>{product.publisher}</b>
+                </Card.Text>
+                <Card.Text as='div' className='my-2'>
                     <Rating
                         rating={product.rating}
                         outOff={`${product.numReviews} reviews`}
                     />
                 </Card.Text>
-                <Card.Text as='h3' style={{ paddingTop:'1rem', paddingBottom:'1rem' }}>
+                <Card.Text as='h3' style={{ paddingBottom:'1rem' }}>
                     {String.fromCharCode(8377)}{product.price}
                 </Card.Text>
             </Card.Body>
