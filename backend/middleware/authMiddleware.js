@@ -19,7 +19,7 @@ const protect = asyncHandler(async (req, res, next) => {
            //next middleware in the stack 
            //and the main route in the server.js 
            //app.use('/api/users', userRoutes) is terminated although not completed
-           //and the next in stack middleware that is not found in server.js
+           //and the next in stack middleware that is -->(not found) in server.js
            //app.use(notFound) is called and we get the message provided in the notfound middleware 
         }
          catch (error) {
