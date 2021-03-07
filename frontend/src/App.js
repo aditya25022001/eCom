@@ -6,6 +6,7 @@ import { ProductScreen } from './screens/ProductScreen';
 import { CartScreen } from './screens/CartScreen';
 import { LoginScreen } from './screens/LoginScreen';
 import { RegisterScreen } from './screens/RegistersScreen';
+import { ProfileScreen } from './screens/ProfileScreen';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
         <Container>
           <Route path='/login' component={LoginScreen}></Route>
           <Route path='/register' component={RegisterScreen}></Route>
+          <Route path='/profile' component={ProfileScreen}></Route>
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} /> {/* ? in any path says that the passed parameter in optional */}
           <Route path="/" component={HomeScreen} exact />   {/* component says whichone to open when / achieved and exact syas that excact path is needed */}
