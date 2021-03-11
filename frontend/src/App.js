@@ -7,6 +7,9 @@ import { CartScreen } from './screens/CartScreen';
 import { LoginScreen } from './screens/LoginScreen';
 import { RegisterScreen } from './screens/RegistersScreen';
 import { ProfileScreen } from './screens/ProfileScreen';
+import { ShippingScreen } from './screens/ShippingScreen';
+import { PaymentScreen } from './screens/PaymentScreen';
+import { PlaceorderScreen } from './screens/PlaceorderScreen';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 function App() {
@@ -15,6 +18,9 @@ function App() {
       <Header />
       <main className='py-3'>
         <Container>
+          <Route path='/shipping' component={ShippingScreen}></Route>
+          <Route path='/payment' component={PaymentScreen}></Route>
+          <Route path='/placeorder' component={PlaceorderScreen}></Route>
           <Route path='/login' component={LoginScreen}></Route>
           <Route path='/register' component={RegisterScreen}></Route>
           <Route path='/profile' component={ProfileScreen}></Route>
