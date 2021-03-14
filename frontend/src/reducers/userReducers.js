@@ -13,6 +13,9 @@ import {
     USER_UPDATE_PROFILE_SUCCESS,
     USER_UPDATE_PROFILE_FAIL,
     USER_UPDATE_PROFILE_RESET,
+    USER_MY_ORDERS_FAIL,
+    USER_MY_ORDERS_REQUEST,
+    USER_MY_ORDERS_SUCCESS
 } from '../constants/userConstants.js'
 
 export const userLoginReducer = (state = { }, action ) => {
@@ -68,5 +71,26 @@ export const userUpdateProfileReducer = (state = {  }, action ) => {
             return {  }
         default:
         return state
+    }
+}
+
+export const userMyOrdersReducer = (state ={ userOrders:[] }, action) => {
+    switch(action.type){
+        case USER_MY_ORDERS_REQUEST:
+            return {
+                loading:true
+            }
+        case USER_MY_ORDERS_SUCCESS:
+            return {
+                loading:false,
+                userOrders:action.payload
+            }
+        case USER_MY_ORDERS_FAIL:
+            return { 
+                loading:false, 
+                error : action.payload 
+            }
+        default:
+            return state
     }
 }

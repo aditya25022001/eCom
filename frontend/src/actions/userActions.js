@@ -11,7 +11,10 @@ import { USER_DETAILS_FAIL,
          USER_REGISTER_SUCCESS, 
          USER_UPDATE_PROFILE_FAIL, 
          USER_UPDATE_PROFILE_REQUEST,
-         USER_UPDATE_PROFILE_SUCCESS} from "../constants/userConstants"
+         USER_UPDATE_PROFILE_SUCCESS,
+        USER_MY_ORDERS_FAIL,
+        USER_MY_ORDERS_REQUEST,
+        USER_MY_ORDERS_SUCCESS} from "../constants/userConstants"
 
 export const register = (name, email, password) => async (dispatch) => {
     try {
@@ -147,4 +150,34 @@ export const logout = () => async (dispatch) => {
     dispatch({
         type:USER_LOGOUT
     })
+}
+
+export const userMyOrders = () => async (dispatch,getState) => {
+    try {
+        dispatch({
+            type:USER_MY_ORDERS_REQUEST,
+        })
+
+        const { userLogin : { userInfo } } = getState()
+
+        const config = {
+            headers:{
+                Authorization : `Bearer ${userInfo.token}`
+            }
+        }
+
+        const { orders } = await axios.get('/api/users/profile/orders',config)
+
+        dispatch({
+            type:USER_MY_ORDERS_SUCCESS,
+            payload:orders
+        })
+        
+    } catch (error) {
+        dispatch({
+            typr:USER_MY_ORDERS_FAIL,
+            payload:error.response && error.response.data.message ? error.response.data.message : error.message
+        })
+    }
+
 }

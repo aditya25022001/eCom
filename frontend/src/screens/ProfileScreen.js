@@ -3,7 +3,7 @@ import { Form, Row, Button, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import {Message} from '../components/Message';
 import {Loader} from '../components/Loader'
-import { getUserDetails, updateUserProfile } from '../actions/userActions'
+import { getUserDetails, updateUserProfile, userMyOrders } from '../actions/userActions'
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 
 export const ProfileScreen = ({ location, history }) => {
@@ -29,6 +29,9 @@ export const ProfileScreen = ({ location, history }) => {
    const userUpdateProfile = useSelector(state => state.userUpdateProfile)
    const { success } = userUpdateProfile
 
+   const userOrder = useSelector(state => state.myOrders)
+   const { loading:loadingOrders, error:errorOrders, userOrders } = userOrder
+
     useEffect(() => {
         if(!userInfo){
             history.push('/login')
@@ -37,6 +40,7 @@ export const ProfileScreen = ({ location, history }) => {
             if(!user.name || success){
                 dispatch({ type:USER_UPDATE_PROFILE_RESET })
                 dispatch(getUserDetails('profile'))
+                dispatch(userMyOrders())
             }
             else{
                 setName(user.name)

@@ -10,6 +10,7 @@ import { ProfileScreen } from './screens/ProfileScreen';
 import { ShippingScreen } from './screens/ShippingScreen';
 import { PaymentScreen } from './screens/PaymentScreen';
 import { PlaceorderScreen } from './screens/PlaceorderScreen';
+import { OrderScreen } from './screens/OrderScreen';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
       <Header />
       <main className='py-3'>
         <Container>
+          <Route path='/order/:id' component={OrderScreen}></Route>
           <Route path='/shipping' component={ShippingScreen}></Route>
           <Route path='/payment' component={PaymentScreen}></Route>
           <Route path='/placeorder' component={PlaceorderScreen}></Route>
