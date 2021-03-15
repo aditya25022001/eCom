@@ -111,8 +111,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 //access       private
 const getMyOrders = asyncHandler(async (req,res) => {
     const orders = await Order.find({ user:req.user._id })
-    // res.send(JSON.stringify(orders.length))
-    res.json(orders)
+    console.log(orders)
+    res.json({orders})
 })
 
 export { authUser, getUserProfile, registerUser, updateUserProfile, getMyOrders }

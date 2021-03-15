@@ -94,7 +94,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
         }
 
         const { data } = await axios.get(`/api/users/${id}`, config)
-    
+
         dispatch({
             type:USER_DETAILS_SUCCESS,
             payload:data
@@ -132,11 +132,6 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 
         localStorage.setItem('userInfo', JSON.stringify(data));
 
-        dispatch({
-            type:USER_LOGIN_SUCCESS,
-            payload:data
-        })
-
     } catch (error) {
         dispatch({
             type: USER_UPDATE_PROFILE_FAIL,
@@ -168,6 +163,8 @@ export const userMyOrders = () => async (dispatch,getState) => {
 
         const { orders } = await axios.get('/api/users/profile/orders',config)
 
+        console.log(orders)
+
         dispatch({
             type:USER_MY_ORDERS_SUCCESS,
             payload:orders
@@ -175,7 +172,7 @@ export const userMyOrders = () => async (dispatch,getState) => {
         
     } catch (error) {
         dispatch({
-            typr:USER_MY_ORDERS_FAIL,
+            type:USER_MY_ORDERS_FAIL,
             payload:error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }

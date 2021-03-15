@@ -3,7 +3,7 @@ import { Form, Row, Button, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import {Message} from '../components/Message';
 import {Loader} from '../components/Loader'
-import { getUserDetails, updateUserProfile, userMyOrders } from '../actions/userActions'
+import { getUserDetails, updateUserProfile, userMyOrders, login } from '../actions/userActions'
 import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
 
 export const ProfileScreen = ({ location, history }) => {
@@ -37,8 +37,7 @@ export const ProfileScreen = ({ location, history }) => {
             history.push('/login')
         }
         else{
-            if(!user.name || success){
-                dispatch({ type:USER_UPDATE_PROFILE_RESET })
+            if(!user.name){
                 dispatch(getUserDetails('profile'))
                 dispatch(userMyOrders())
             }
@@ -64,13 +63,17 @@ export const ProfileScreen = ({ location, history }) => {
         }
     }
 
+    const reload = () => {
+        window.location.reload()
+    }
+
     return (
             <Row>
                 <Col md={3}>
                     <h2>Profile</h2>
                     {message && <Message variant='danger'>{message}</Message>}
                     {error && <Message variant='danger'>{error}</Message>}
-                    {success && <Message variant='success'>Profile Updated</Message>}
+                    {success && <Message variant='success'>Profile Updated! Sign in again to reflect changes</Message>}
                     {loading && <Loader></Loader>}
                     <Form onSubmit={submitHandler}>
                         <Form.Group controlId='name'>
@@ -94,6 +97,7 @@ export const ProfileScreen = ({ location, history }) => {
                 </Col>
                 <Col md={9}>
                     <h1>My orders</h1>
+                    <h1>{userOrders}</h1>
                 </Col>
             </Row>
     )
