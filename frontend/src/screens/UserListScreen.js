@@ -65,7 +65,7 @@ export const UserListScreen = ({history}) => {
                               <td><a href={`mailto:${user.email}`}>{user.email}</a></td>
                               <td>{user.isAdmin ? 'YES' : 'NO'}</td>
                               <td className='px-3'>
-                                  <LinkContainer to={`/user/${user._id}/edit`}>
+                                  <LinkContainer to={`/admin/user/${user._id}/edit`}>
                                       <Button variant='dark' className='btn-sm'>
                                           <i className='fas fa-edit' />
                                       </Button>

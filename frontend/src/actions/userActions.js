@@ -23,7 +23,10 @@ import { USER_DETAILS_FAIL,
     USER_LIST_RESET,
     USER_DELETE_REQUEST,
     USER_DELETE_SUCCESS,
-    USER_DELETE_FAIL} from "../constants/userConstants"
+    USER_DELETE_FAIL,
+    USER_UPDATE_FAIL,
+    USER_UPDATE_REQUEST,
+    USER_UPDATE_SUCCESS} from "../constants/userConstants"
 
 export const register = (name, email, password) => async (dispatch) => {
     try {
@@ -249,6 +252,41 @@ export const adminDeleteUser = (id) => async (dispatch,getState) => {
     catch(error){
         dispatch({
             type:USER_DELETE_FAIL,
+            payload:error.response && error.response.data.message ? error.response.data.message : error.message
+        })
+    }
+}
+
+export const adminUpdateUser = (id) => async(dispatch,getState) => {
+    try {
+        dispatch({
+            type:USER_UPDATE_REQUEST
+        })
+
+        const { userLogin:{userInfo} } = getState()
+
+        const config = {
+            headers:{
+                'content-type':'application/json',
+                Authorization:`Bearer ${userInfo.token}`
+            }
+        }
+
+        if(userInfo.isAdmin){
+            const { data } = await axios.put(`/api/admin/user/${id}`,config)
+
+            dispatch({
+                type:USER_UPDATE_SUCCESS,
+                payload:data
+            })
+        }
+        else{
+            throw new Error('Not authorized')
+        }
+        
+    } catch (error) {
+        dispatch({
+            type:USER_UPDATE_FAIL,
             payload:error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
