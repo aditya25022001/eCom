@@ -115,4 +115,28 @@ const getMyOrders = asyncHandler(async (req,res) => {
     res.json([...data])
 })
 
-export { authUser, getUserProfile, registerUser, updateUserProfile, getMyOrders }
+//description      get all users
+//route            GET/api/admin/users
+//access           private/admin
+const getUsers = asyncHandler(async (req, res) => {
+    const users = await User.find({})
+    res.json(users)
+})
+
+//description      delete a user 
+//route            DELETE/api/admin/deleteuser/:id
+//access           private/admin
+const deleteUser = asyncHandler(async(req,res) => {
+    const user = await User.findById(req.params._id)
+    console.log(req.params._id)
+    if(user){
+        await user.remove()
+        res.json({ message:'user removed' })
+    }
+    else{
+        res.status(404)
+        throw new Error('User does not exist')
+    }
+})
+
+export { authUser, getUserProfile, registerUser, updateUserProfile, getMyOrders, getUsers, deleteUser }

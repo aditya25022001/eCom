@@ -16,7 +16,12 @@ import { USER_DETAILS_FAIL,
         USER_MY_ORDERS_REQUEST,
         USER_MY_ORDERS_SUCCESS,
         USER_DETAILS_RESET,
-        USER_MY_ORDERS_RESET} from "../constants/userConstants"
+        USER_MY_ORDERS_RESET,
+        USER_LIST_FAIL,
+        USER_LIST_REQUEST,
+        USER_LIST_SUCCESS,
+    USER_LIST_RESET,
+    USER_DELETE_REQUEST} from "../constants/userConstants"
 
 export const register = (name, email, password) => async (dispatch) => {
     try {
@@ -147,6 +152,7 @@ export const logout = () => async (dispatch) => {
     dispatch({type:USER_LOGOUT})
     dispatch({type:USER_DETAILS_RESET})
     dispatch({type:USER_MY_ORDERS_RESET})
+    dispatch({type:USER_LIST_RESET})
 }
 
 export const userMyOrders = () => async (dispatch,getState) => {
@@ -178,5 +184,62 @@ export const userMyOrders = () => async (dispatch,getState) => {
             payload:error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
+}
 
+export const usersList = () => async(dispatch,getState) => {
+    try {
+        dispatch({
+            type:USER_LIST_REQUEST
+        })
+
+        const { userLogin:{ userInfo } } = getState()
+
+        const config = {
+            headers:{
+                Authorization:`Bearer ${userInfo.token}`
+            }
+        }
+
+        if(userInfo.isAdmin){
+            const { data } = await axios.get('/api/admin/users',config)
+            dispatch({
+                type:USER_LIST_SUCCESS,
+                payload:data
+            })
+        }
+        else{
+            throw new Error("Not authorized")
+        }
+        
+    } catch (error) {
+        dispatch({
+            type:USER_LIST_FAIL,
+            payload:error.response && error.response.data.message ? error.response.data.message : error.message
+        })
+    }
+}
+
+export const adminDeleteUser = (id) => async (dispatch,getState) => {
+    try{
+        dispatch({
+            type:USER_DELETE_REQUEST
+        })
+
+        const {userLogin : {userInfo} } = getState()
+
+        const config={
+            headers:{
+                'Content-type':'application/json',
+                Authorization:`Bearer ${userInfo.token}`
+            }
+        }
+
+        if(userInfo.isAdmin){
+            
+        }
+
+    }
+    catch(error){
+
+    }
 }

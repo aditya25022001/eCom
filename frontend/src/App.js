@@ -11,6 +11,7 @@ import { ShippingScreen } from './screens/ShippingScreen';
 import { PaymentScreen } from './screens/PaymentScreen';
 import { PlaceorderScreen } from './screens/PlaceorderScreen';
 import { OrderScreen } from './screens/OrderScreen';
+import { UserListScreen } from './screens/UserListScreen';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path='/login' component={LoginScreen}></Route>
           <Route path='/register' component={RegisterScreen}></Route>
           <Route path='/profile' component={ProfileScreen}></Route>
+          <Route path='/admin/users' component={UserListScreen}></Route>
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} /> {/* ? in any path says that the passed parameter in optional */}
           <Route path="/" component={HomeScreen} exact />   {/* component says whichone to open when / achieved and exact syas that excact path is needed */}
