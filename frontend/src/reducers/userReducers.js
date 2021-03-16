@@ -117,7 +117,8 @@ export const userListReducer = (state = { users:[] } ,action) => {
         case USER_LIST_SUCCESS:
             return{
                 loading:false,
-                users:action.payload
+                users:action.payload,
+                success:true
             }
         case USER_LIST_FAIL:
             return{
@@ -140,8 +141,7 @@ export const userDeleteReducer = (state = { },action) => {
         case USER_DELETE_SUCCESS:
             return{
                 loading:false,
-                success:true,
-                userDeleted : action.payload
+                success:true
             }
         case USER_DELETE_FAIL:
             return {
