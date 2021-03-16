@@ -110,9 +110,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 //route        GET/api/profile/orders
 //access       private
 const getMyOrders = asyncHandler(async (req,res) => {
-    const orders = await Order.find({ user:req.user._id })
-    console.log(orders)
-    res.json({orders})
+    const data = await Order.find({ user:req.user._id })
+    console.log(data)
+    res.json([...data])
 })
 
 export { authUser, getUserProfile, registerUser, updateUserProfile, getMyOrders }

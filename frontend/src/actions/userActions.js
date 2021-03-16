@@ -14,7 +14,9 @@ import { USER_DETAILS_FAIL,
          USER_UPDATE_PROFILE_SUCCESS,
         USER_MY_ORDERS_FAIL,
         USER_MY_ORDERS_REQUEST,
-        USER_MY_ORDERS_SUCCESS} from "../constants/userConstants"
+        USER_MY_ORDERS_SUCCESS,
+        USER_DETAILS_RESET,
+        USER_MY_ORDERS_RESET} from "../constants/userConstants"
 
 export const register = (name, email, password) => async (dispatch) => {
     try {
@@ -142,9 +144,9 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 
 export const logout = () => async (dispatch) => {
     localStorage.removeItem('userInfo')
-    dispatch({
-        type:USER_LOGOUT
-    })
+    dispatch({type:USER_LOGOUT})
+    dispatch({type:USER_DETAILS_RESET})
+    dispatch({type:USER_MY_ORDERS_RESET})
 }
 
 export const userMyOrders = () => async (dispatch,getState) => {
@@ -161,13 +163,13 @@ export const userMyOrders = () => async (dispatch,getState) => {
             }
         }
 
-        const { orders } = await axios.get('/api/users/profile/orders',config)
-
-        console.log(orders)
+        const {data} = await axios.get('/api/users/profile/orders',config)
+        
+        console.log(data)
 
         dispatch({
             type:USER_MY_ORDERS_SUCCESS,
-            payload:orders
+            payload:data
         })
         
     } catch (error) {
