@@ -153,7 +153,7 @@ const getUserById = asyncHandler(async(req,res) => {
 })
 
 //description      Update user access by admin
-//route            PUT/api/admin/user/:id
+//route            PUT/api/admin/user/:id/edit
 //access           private/admin
 const updateUserAccess = asyncHandler(async(req,res) => {
     const user = await User.findById(req.params.id)

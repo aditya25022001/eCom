@@ -26,7 +26,10 @@ import { USER_DETAILS_FAIL,
     USER_DELETE_FAIL,
     USER_UPDATE_FAIL,
     USER_UPDATE_REQUEST,
-    USER_UPDATE_SUCCESS} from "../constants/userConstants"
+    USER_UPDATE_SUCCESS,
+    USER_DETAILS_ADMIN_REQUEST,
+    USER_DETAILS_ADMIN_SUCCESS,
+    USER_DETAILS_ADMIN_FAIL} from "../constants/userConstants"
 
 export const register = (name, email, password) => async (dispatch) => {
     try {
@@ -257,7 +260,7 @@ export const adminDeleteUser = (id) => async (dispatch,getState) => {
     }
 }
 
-export const adminUpdateUser = (id) => async(dispatch,getState) => {
+export const adminUpdateUser = (user) => async(dispatch,getState) => {
     try {
         dispatch({
             type:USER_UPDATE_REQUEST
@@ -270,13 +273,17 @@ export const adminUpdateUser = (id) => async(dispatch,getState) => {
                 'content-type':'application/json',
                 Authorization:`Bearer ${userInfo.token}`
             }
-        }
+        } 
 
         if(userInfo.isAdmin){
-            const { data } = await axios.put(`/api/admin/user/${id}`,config)
+            const { data } = await axios.put(`/api/admin/user/${user._id}/edit`,user,config)
 
             dispatch({
                 type:USER_UPDATE_SUCCESS,
+            })
+
+            dispatch({
+                type:USER_DETAILS_SUCCESS,
                 payload:data
             })
         }
@@ -288,6 +295,36 @@ export const adminUpdateUser = (id) => async(dispatch,getState) => {
         dispatch({
             type:USER_UPDATE_FAIL,
             payload:error.response && error.response.data.message ? error.response.data.message : error.message
+        })
+    }
+}
+
+export const getUserDetailsByAdmin = (id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: USER_DETAILS_ADMIN_REQUEST
+        })
+
+        const { userLogin : { userInfo } } = getState()
+
+        const config = {
+            headers:{
+                'Content-type':'application/json',
+                 Authorization : `Bearer ${userInfo.token}`
+            }
+        }
+
+        const { data } = await axios.get(`/api/admin/user/${id}`, config)
+
+        dispatch({
+            type:USER_DETAILS_ADMIN_SUCCESS,
+            payload:data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: USER_DETAILS_ADMIN_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
 }

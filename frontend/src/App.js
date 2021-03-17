@@ -12,7 +12,7 @@ import { PaymentScreen } from './screens/PaymentScreen';
 import { PlaceorderScreen } from './screens/PlaceorderScreen';
 import { OrderScreen } from './screens/OrderScreen';
 import { UserListScreen } from './screens/UserListScreen';
-// import { EditScreen } from './screens/EditScreen';
+ import { EditScreen } from './screens/EditScreen';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 function App() {
@@ -29,7 +29,7 @@ function App() {
           <Route path='/register' component={RegisterScreen}></Route>
           <Route path='/profile' component={ProfileScreen}></Route>
           <Route path='/admin/users' component={UserListScreen}></Route>
-          {/* <Route path='/admin/user/:id/edit' component={EditScreen}></Route> */}
+          <Route path='/admin/user/:id/edit' component={EditScreen}></Route>
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} /> {/* ? in any path says that the passed parameter in optional */}
           <Route path="/" component={HomeScreen} exact />   {/* component says whichone to open when / achieved and exact syas that excact path is needed */}
