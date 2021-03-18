@@ -2,6 +2,7 @@ import User from '../models/userModel.js'
 import Order from '../models/orderModel.js'
 import asyncHandler from 'express-async-handler'
 import generateToken from '../utils/generateTokens.js'
+import Product from '../models/productModel.js'
 
 
 //description      authenticate the user and get token
@@ -176,4 +177,19 @@ const updateUserAccess = asyncHandler(async(req,res) => {
 
 })
 
-export { authUser, getUserProfile, registerUser, updateUserProfile, getMyOrders, getUsers, deleteUser, getUserById, updateUserAccess }
+//description     get product list
+//route           GET/api/admin/products
+//access           private/admin
+const getProductListByAdmin = asyncHandler(async (req, res) => {
+    const products = await Product.find({})
+    if(products){
+        res.json(products)
+    }
+    else{
+        res.status(401)
+        throw new Error('Not Authorized')
+    }
+})
+
+
+export { authUser, getUserProfile, registerUser, updateUserProfile, getMyOrders, getUsers, deleteUser, getUserById, updateUserAccess, getProductListByAdmin }

@@ -31,7 +31,10 @@ import {
     USER_DETAILS_ADMIN_REQUEST,
     USER_DETAILS_ADMIN_SUCCESS,
     USER_DETAILS_ADMIN_FAIL,
-    USER_UPDATE_RESET
+    USER_UPDATE_RESET,
+    PRODUCT_LIST_ADMIN_REQUEST,
+    PRODUCT_LIST_ADMIN_SUCCESS,
+    PRODUCT_LIST_ADMIN_FAIL
 } from '../constants/userConstants.js'
 
 export const userLoginReducer = (state = { }, action ) => {
@@ -195,5 +198,18 @@ export const userDetailsByAdminReducer = (state = { user: { } }, action ) => {
             return { loading:false, error : action.payload }
         default:
         return state
+    }
+}
+
+export const adminProductListReducer = (state ={ products : [] }, action ) => {
+    switch(action.type){
+        case PRODUCT_LIST_ADMIN_REQUEST:
+            return { loading: true, products : []}
+        case PRODUCT_LIST_ADMIN_SUCCESS:
+            return { loading:false, products : action.payload}
+        case PRODUCT_LIST_ADMIN_FAIL:
+            return { loading:false, error: action.payload }
+        default:
+            return state
     }
 }

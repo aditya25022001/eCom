@@ -29,7 +29,10 @@ import { USER_DETAILS_FAIL,
     USER_UPDATE_SUCCESS,
     USER_DETAILS_ADMIN_REQUEST,
     USER_DETAILS_ADMIN_SUCCESS,
-    USER_DETAILS_ADMIN_FAIL} from "../constants/userConstants"
+    USER_DETAILS_ADMIN_FAIL,
+    PRODUCT_LIST_ADMIN_REQUEST,
+    PRODUCT_LIST_ADMIN_SUCCESS,
+    PRODUCT_LIST_ADMIN_FAIL} from "../constants/userConstants"
 
 export const register = (name, email, password) => async (dispatch) => {
     try {
@@ -324,6 +327,40 @@ export const getUserDetailsByAdmin = (id) => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: USER_DETAILS_ADMIN_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+        })
+    }
+}
+
+
+export const listProductsByAdmin = () => async (dispatch, getState) => {
+    try {
+        dispatch({ 
+            type:PRODUCT_LIST_ADMIN_REQUEST 
+        })
+
+        const { userLogin : { userInfo } } = getState()
+
+        const config = {
+            headers:{
+                'Content-type':'application/json',
+                Authorization : `Bearer ${userInfo.token}`
+            }
+        }
+
+        if(userInfo.isAdmin){
+            const { data } = await axios.get('/api/admin/products',config)
+            dispatch({ 
+                type:PRODUCT_LIST_ADMIN_SUCCESS, 
+                payload: data
+            })
+        }
+        else{
+            throw new Error("Not Authorized")
+        }
+    } catch (error) {
+        dispatch({
+            type: PRODUCT_LIST_ADMIN_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }

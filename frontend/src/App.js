@@ -13,6 +13,7 @@ import { PlaceorderScreen } from './screens/PlaceorderScreen';
 import { OrderScreen } from './screens/OrderScreen';
 import { UserListScreen } from './screens/UserListScreen';
  import { EditScreen } from './screens/EditScreen';
+ import { ProductListAdminScreen } from './screens/ProductListAdminScreen';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
           <Route path='/login' component={LoginScreen}></Route>
           <Route path='/register' component={RegisterScreen}></Route>
           <Route path='/profile' component={ProfileScreen}></Route>
+          <Route path='/admin/products' component={ProductListAdminScreen}></Route>
           <Route path='/admin/users' component={UserListScreen}></Route>
           <Route path='/admin/user/:id/edit' component={EditScreen}></Route>
           <Route path="/product/:id" component={ProductScreen} />
