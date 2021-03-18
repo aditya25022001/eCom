@@ -191,5 +191,48 @@ const getProductListByAdmin = asyncHandler(async (req, res) => {
     }
 })
 
+//description        get product by ID
+//route              GET/api/admin/product/:id
+//access             private/admin
+const getProductById = asyncHandler(async(req,res) => {
+    const product = await Product.findById(req.params.id)
+    if(product){
+        res.json(product)
+    }
+    else{
+        res.status(404)
+        throw new Error('Product not found')
+    }
+})
+
+//description      Update user access by admin
+//route            PUT/api/admin/user/:id/edit
+//access           private/admin
+const updateProductDetails = asyncHandler(async(req,res) => {
+    const product = await Product.findById(req.params.id)
+    if(product){
+        product.name = req.body.name || product.name
+        product.category = req.body.category || product.category
+        product.price = req.body.isAdmin || product.price
+        product.countInStock = req.body.countInStock || product.countInStock
+        product.publisher = req.body.publisher || product.publisher
+        product.description = req.body.description || product.description
+        const updatedProduct =  await product.save()
+        res.json({
+            _id:updatedProduct._id,
+            name:updatedProduct.name,
+            category:updatedProduct.category,
+            price:updatedProduct.price,
+            countInStock:updatedProduct.countInStock,
+            publisher:updatedProduct.publisher,
+            description:updatedProduct.description,
+        })
+    }
+    else{
+        res.status(404)
+        throw new Error('product not found')
+    }
+
+})
 
 export { authUser, getUserProfile, registerUser, updateUserProfile, getMyOrders, getUsers, deleteUser, getUserById, updateUserAccess, getProductListByAdmin }
