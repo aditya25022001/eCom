@@ -211,14 +211,16 @@ const getProductById = asyncHandler(async(req,res) => {
 const updateProductDetails = asyncHandler(async(req,res) => {
     const product = await Product.findById(req.params.id)
     if(product){
-        product.name = req.body.name || product.name
-        product.category = req.body.category || product.category
-        product.price = req.body.isAdmin || product.price
-        product.countInStock = req.body.countInStock || product.countInStock
-        product.publisher = req.body.publisher || product.publisher
-        product.description = req.body.description || product.description
+        product.name = req.body.name ? req.body.name : product.name
+        product.category = req.body.category ? req.body.category: product.category
+        product.price = req.body.price ? req.body.price : product.price
+        product.countInStock = req.body.countInStock ? req.body.countInStock : product.countInStock
+        product.publisher = req.body.publisher ? req.body.publisher : product.publisher
+        product.description = req.body.description ? req.body.description : product.description
+        console.log(req.body)
         const updatedProduct =  await product.save()
         res.json({
+            body:req.body,
             _id:updatedProduct._id,
             name:updatedProduct.name,
             category:updatedProduct.category,
@@ -235,4 +237,4 @@ const updateProductDetails = asyncHandler(async(req,res) => {
 
 })
 
-export { authUser, getUserProfile, registerUser, updateUserProfile, getMyOrders, getUsers, deleteUser, getUserById, updateUserAccess, getProductListByAdmin }
+export { authUser, getUserProfile, registerUser, updateUserProfile, getMyOrders, getUsers, deleteUser, getUserById, updateUserAccess, getProductListByAdmin, getProductById, updateProductDetails}
