@@ -413,7 +413,7 @@ export const adminUpdateProduct = (product) => async(dispatch,getState) => {
     }
 }
 
-export const getpRODUCTDetailsByAdmin = (id) => async (dispatch, getState) => {
+export const getProductDetailsByAdmin = (id) => async (dispatch, getState) => {
     try {
         dispatch({
             type: PRODUCT_DETAILS_ADMIN_REQUEST

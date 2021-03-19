@@ -226,7 +226,7 @@ export const productDetailsByAdminReducer = (state = { product: {} }, action ) =
         case PRODUCT_DETAILS_ADMIN_REQUEST:
             return { ...state, loading:true }
         case PRODUCT_DETAILS_ADMIN_SUCCESS:
-            return { loading:false, user : action.payload }
+            return { loading:false, product : action.payload }
         case PRODUCT_DETAILS_ADMIN_FAIL:
             return { loading:false, error : action.payload }
         default:

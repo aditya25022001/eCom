@@ -58,7 +58,7 @@ export const ProductListAdminScreen = ({history}) => {
                                 <Row><b style={style}>Price : </b> {rupee}{product.price}</Row>
                                 <Row><b style={style}>In Stock : </b> {product.countInStock}</Row>
                                 <Row className='my-3'>
-                                    <LinkContainer to={`/admin/products/${product._id}/edit`}>
+                                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
                                         <Button className='mx-2 rounded'>
                                             <i className="fas fa-edit"/>
                                         </Button>

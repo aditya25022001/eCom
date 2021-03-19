@@ -217,6 +217,7 @@ const updateProductDetails = asyncHandler(async(req,res) => {
         product.countInStock = req.body.countInStock ? req.body.countInStock : product.countInStock
         product.publisher = req.body.publisher ? req.body.publisher : product.publisher
         product.description = req.body.description ? req.body.description : product.description
+        product.image = req.body.image ? req.body.image : product.image
         console.log(req.body)
         const updatedProduct =  await product.save()
         res.json({
@@ -228,6 +229,7 @@ const updateProductDetails = asyncHandler(async(req,res) => {
             countInStock:updatedProduct.countInStock,
             publisher:updatedProduct.publisher,
             description:updatedProduct.description,
+            image:updatedProduct.image
         })
     }
     else{
