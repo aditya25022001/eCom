@@ -41,7 +41,10 @@ import {
     ADMIN_PRODUCT_UPDATE_REQUEST,
     ADMIN_PRODUCT_UPDATE_SUCCESS,
     ADMIN_PRODUCT_UPDATE_FAIL,
-    ADMIN_PRODUCT_UPDATE_RESET
+    ADMIN_PRODUCT_UPDATE_RESET,
+    PRODUCT_DELETE_REQUEST,
+    PRODUCT_DELETE_SUCCESS,
+    PRODUCT_DELETE_FAIL
 } from '../constants/userConstants.js'
 
 export const userLoginReducer = (state = { }, action ) => {
@@ -257,4 +260,25 @@ export const productUpdateReducer = (state = { product:{} },action) => {
         default:
             return state
     }
+}
+
+export const productDeleteReducer = (state = { }, action) => {
+    switch (action.type){
+        case PRODUCT_DELETE_REQUEST:
+            return { 
+                loading:true 
+            }
+        case PRODUCT_DELETE_SUCCESS:
+            return { 
+                loading:false,
+                success:true
+            }
+        case PRODUCT_DELETE_FAIL:
+            return{
+                loading:false, 
+                error : action.payload
+            }
+        default:
+            return state
+    }  
 }

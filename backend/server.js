@@ -10,7 +10,7 @@ import { notFound, errorHandler } from './middleware/errorMiddleware.js'
 dotenv.config();
 
 connectDB()
-
+    
 const PORT = process.env.PORT || 5000
 
 const app = express()

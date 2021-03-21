@@ -1,10 +1,11 @@
 import React,{useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { listProductsByAdmin } from '../actions/userActions'
+import { listProductsByAdmin, deleteProductByAdmin } from '../actions/userActions'
 import { Loader } from '../components/Loader'
 import { Message } from '../components/Message'
 import { ListGroup, Image, Row, Col, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
+import AddIcon from '@material-ui/icons/Add';
 
 export const ProductListAdminScreen = ({history}) => {
 
@@ -13,6 +14,9 @@ export const ProductListAdminScreen = ({history}) => {
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
+
+    const deleteProduct = useSelector(state => state.deleteProduct)
+    const { loading:loadingDelete, error:errorDelete, success:successDelete } = deleteProduct
 
     const dispatch = useDispatch()
 
@@ -35,11 +39,19 @@ export const ProductListAdminScreen = ({history}) => {
                 dispatch(listProductsByAdmin())
             }
         }
-    },[dispatch, userInfo, history])
+    },[dispatch, userInfo, history, successDelete])
+
+    const deleteProductHandler = (id) => {
+        if(window.confirm()){
+            dispatch(deleteProductByAdmin(id))
+        }
+    }
 
     return (
         <>
         <h3>Products We Have!</h3>
+        {loadingDelete && <Loader/>}
+        {errorDelete && <Message>{errorDelete}</Message>}
         {loading && <Loader/>}
         {error && <Message variant='danger'>{error}</Message>}
         <ListGroup>
@@ -63,7 +75,7 @@ export const ProductListAdminScreen = ({history}) => {
                                             <i className="fas fa-edit"/>
                                         </Button>
                                     </LinkContainer>
-                                    <Button className='rounded' variant='danger'>
+                                    <Button className='rounded' variant='danger' onClick={e => deleteProductHandler(product._id)}>
                                         <i className="fas fa-trash"/>
                                     </Button>
                                 </Row>
@@ -72,7 +84,10 @@ export const ProductListAdminScreen = ({history}) => {
                     </ListGroup.Item>
                 ))
             }
-            <Button className='btn btn-dark my-2'>Add Item</Button>
+            <Button className='btn btn-dark my-2 text-align-center'>
+                <AddIcon/>
+                <b style={{color:'white', fontWeight:600}} >Add Item</b>
+            </Button>
         </ListGroup>
         </>
 
