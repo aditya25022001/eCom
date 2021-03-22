@@ -96,27 +96,22 @@ const getProductById = asyncHandler(async(req,res) => {
 //access           private/admin
 const updateProductDetails = asyncHandler(async(req,res) => {
     const product = await Product.findById(req.params.id)
+
+    const { name, category, price, countInStock, description, publisher, image} = req.body
     if(product){
-        product.name = req.body.name ? req.body.name : product.name
-        product.category = req.body.category ? req.body.category: product.category
-        product.price = req.body.price ? req.body.price : product.price
-        product.countInStock = req.body.countInStock ? req.body.countInStock : product.countInStock
-        product.publisher = req.body.publisher ? req.body.publisher : product.publisher
-        product.description = req.body.description ? req.body.description : product.description
-        product.image = req.body.image ? req.body.image : product.image
+        product.name = name,
+        product.category = category
+        product.price = price
+        product.countInStock = countInStock
+        product.publisher = publisher
+        product.description = description
+        product.image = image
+
         console.log(req.body)
+        
         const updatedProduct =  await product.save()
-        res.json({
-            body:req.body,
-            _id:updatedProduct._id,
-            name:updatedProduct.name,
-            category:updatedProduct.category,
-            price:updatedProduct.price,
-            countInStock:updatedProduct.countInStock,
-            publisher:updatedProduct.publisher,
-            description:updatedProduct.description,
-            image:updatedProduct.image
-        })
+        
+        res.json(updatedProduct)
     }
     else{
         res.status(404)
@@ -126,7 +121,7 @@ const updateProductDetails = asyncHandler(async(req,res) => {
 })
 
 //description       delete a product
-//route             /api/admin/deleteproduct/:id
+//route             DELETE/api/admin/deleteproduct/:id
 //access            private/admin
 const deleteProduct = asyncHandler(async (req, res) => {
     const product = await Product.findById(req.params.id)
@@ -140,4 +135,33 @@ const deleteProduct = asyncHandler(async (req, res) => {
     }
 })
 
-export {getUsers, deleteUser, getUserById, updateUserAccess, getProductListByAdmin, getProductById, updateProductDetails, deleteProduct}
+//description        add a product
+//route              POST/api/admin/addproduct
+//access             private/admin
+const addProduct = asyncHandler(async(req, res) => {
+    const { name, category, price, countInStock, description, publisher, image} = req.body;
+    console.log(req.body);
+    // const product = new Product({
+    //     user:req.user._id,
+    //     name:name,
+    //     category:category,
+    //     price:price,
+    //     countInStock:countInStock,
+    //     description:description,
+    //     publisher:publisher,
+    //     image:image
+    // })
+    const createdProduct = await Product.create({
+        user:req.user._id,
+        name:name,
+        category:category,
+        price:price,
+        countInStock:countInStock,
+        description:description,
+        publisher:publisher,
+        image:image
+    })
+    res.status(201).json(createdProduct)
+})
+
+export {getUsers, deleteUser, getUserById, updateUserAccess, getProductListByAdmin, getProductById, updateProductDetails, deleteProduct, addProduct}

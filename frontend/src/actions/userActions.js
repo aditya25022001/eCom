@@ -41,7 +41,10 @@ import { USER_DETAILS_FAIL,
     PRODUCT_DETAILS_ADMIN_FAIL,
     PRODUCT_DELETE_REQUEST,
     PRODUCT_DELETE_SUCCESS,
-    PRODUCT_DELETE_FAIL} from "../constants/userConstants"
+    PRODUCT_DELETE_FAIL,
+    PRODUCT_ADD_REQUEST,
+    PRODUCT_ADD_SUCCESS,
+    PRODUCT_ADD_FAIL} from "../constants/userConstants"
 
 import { PRODUCT_DETAILS_SUCCESS } from '../constants/productConstants'
 
@@ -78,7 +81,6 @@ export const register = (name, email, password) => async (dispatch) => {
         })
     }
 }
-
 
 export const login = (email, password) => async (dispatch) => {
     try {
@@ -464,7 +466,8 @@ export const deleteProductByAdmin = (id) => async(dispatch, getState) => {
             const { data } = await axios.delete(`/api/admin/deleteproduct/${id}`,config)
 
             dispatch({
-                type:PRODUCT_DELETE_SUCCESS
+                type:PRODUCT_DELETE_SUCCESS,
+                payload:data
             })
         }
         else{
@@ -474,6 +477,43 @@ export const deleteProductByAdmin = (id) => async(dispatch, getState) => {
         dispatch({
             type:PRODUCT_DELETE_FAIL,
             payload:error.response && error.response.data.message ? error.response.data.message : error.message
+        })
+    }
+}
+
+export const addProduct = (name, category, price, countInStock, description, publisher, image) => async (dispatch,getState) => {
+    try {
+        dispatch({
+            type: PRODUCT_ADD_REQUEST
+        })
+
+        const { userLogin : {userInfo} } = getState()
+
+        const config = {
+            headers:{
+                'Content-type':'application/json',
+                Authorization : `Bearer ${userInfo.token}`
+            }
+        }
+
+        if(userInfo.isAdmin){
+            
+            const { data } = await axios.post('/api/admin/addproduct', {name, category, price, countInStock, description, publisher, image}, config)
+            
+            console.log(data);
+
+            dispatch({
+                type:PRODUCT_ADD_SUCCESS,
+                payload:data
+            })
+        }
+        else{
+            throw new Error("Not Authorized")
+        }
+    } catch (error) {
+        dispatch({
+            type: PRODUCT_ADD_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
 }

@@ -4,10 +4,12 @@ import { FormLogin } from '../components/FormLogin'
 import { getProductDetailsByAdmin } from '../actions/userActions'
 import { Loader } from '../components/Loader'
 import { Message } from '../components/Message'
-import { Form, Button, Col, Image, Row, Container } from 'react-bootstrap'
+import { Form, Button, Image} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-
-export const ProductEditScreen = ({match}) => {
+import { adminUpdateProduct } from '../actions/userActions'
+import {ADMIN_PRODUCT_UPDATE_RESET} from '../constants/userConstants'
+ 
+export const ProductEditScreen = ({match, history}) => {
 
     const pid = match.params.id
 
@@ -24,23 +26,33 @@ export const ProductEditScreen = ({match}) => {
     const productDetailsByAdmin = useSelector(state => state.productDetailsByAdmin)
     const { loading, error, product } = productDetailsByAdmin
 
+    const productUpdate = useSelector(state => state.productUpdate)
+    const { loading:loadingUpdate, error:errorUpdate, success } = productUpdate
+
     useEffect(() =>{
-        if(!product || product._id!==pid){
-            dispatch(getProductDetailsByAdmin(pid))
+        if(success){
+            dispatch({ type: ADMIN_PRODUCT_UPDATE_RESET })
+            history.push('/admin/products')
         }
         else{
-            setName(product.name)
-            setDescription(product.description)
-            setCountInStock(product.countInStock)
-            setPrice(product.price)
-            setCategory(product.category)
-            setPublisher(product.publisher)
-            setImage(product.image)
+            if(!product || product._id!==pid){
+                dispatch(getProductDetailsByAdmin(pid))
+            }
+            else{
+                setName(product.name)
+                setDescription(product.description)
+                setCountInStock(product.countInStock)
+                setPrice(product.price)
+                setCategory(product.category)
+                setPublisher(product.publisher)
+                setImage(product.image)
+            }
         }
-    },[dispatch, product, pid])
+    },[dispatch, product, pid, success, history])
 
     const updateSubmitHandler = (e) => {
         e.preventDefault()
+        dispatch(adminUpdateProduct({_id:pid, name, category, price, description, countInStock, publisher, image}))
         console.log({name},{price},{category},{image},{description},{countInStock},{publisher})
     }
 
@@ -50,8 +62,8 @@ export const ProductEditScreen = ({match}) => {
                 Go Back
             </Link>
             <h3>Update Product Details</h3>
-            {/* {loading && <Loader/>}
-            {error && <Message variant='danger'>{error}</Message>} */}
+            {loadingUpdate && <Loader/>}
+            {errorUpdate && <Message variant='danger'>{error}</Message>}
             {loading 
             ? <Loader/> 
             : error 

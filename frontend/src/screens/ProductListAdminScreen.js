@@ -84,10 +84,12 @@ export const ProductListAdminScreen = ({history}) => {
                     </ListGroup.Item>
                 ))
             }
-            <Button className='btn btn-dark my-2 text-align-center'>
-                <AddIcon/>
-                <b style={{color:'white', fontWeight:600}} >Add Item</b>
-            </Button>
+            <LinkContainer to="/admin/addproduct">
+                <Button className='btn btn-dark my-2 text-align-center'>
+                    <AddIcon/>
+                    <b style={{color:'white', fontWeight:600}} >Add Item</b>
+                </Button>
+            </LinkContainer>
         </ListGroup>
         </>
 
