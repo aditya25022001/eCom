@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { FormLogin } from '../components/FormLogin'
-// import { getProductDetailsByAdmin } from '../actions/userActions'
 import { addProduct } from '../actions/userActions'
 import { Loader } from '../components/Loader'
 import { Message } from '../components/Message'
@@ -16,18 +15,44 @@ export const CreateProductScreen = ({history}) => {
     const [countInStock, setCountInStock] = useState(0)
     const [publisher, setPublisher] = useState(" ")
     const [description, setDescription] = useState(" ")
-    const [image, setImage] = useState(" ")
-
+    const [image, setImage] = useState('')
+    
+    
     const dispatch = useDispatch()
-
+    
     const createProduct = useSelector(state=> state.createProduct)
     const { loading, error, success } = createProduct
-
+    
     useEffect(()=>{
         if(success){
             history.push('/admin/products')
         }
     },[success, history])
+    
+    
+    //uploading file using multer but not working fine 
+    // import axios from 'axios';
+    // const [uploading, setUploading] = useState(false)
+    // const uploadFileHandler = async (e) => {
+        //     const file = e.target.files[0]
+        //     const formData = new FormData()
+    //     formData.append('image',file)
+    //     setUploading(true)
+    //     try {
+    //         const config={
+        //             headers:{
+            //                 'Content-Type': 'multipart/form-data'
+            //             }
+            //         }
+            //         const { data }= await axios.post('/api/upload', formData, config)
+            //         setImage(data)
+            //         setUploading(false)
+            //     } catch (error) {
+    //         console.log(error);
+    //         setUploading(false)
+    //     }
+    // }
+
 
     const createSubmitHandler = (e) => {
         e.preventDefault()
@@ -44,8 +69,9 @@ export const CreateProductScreen = ({history}) => {
             {loading && <Loader/>}
             {error && <Message variant='danger'>{error}</Message>}
             <FormLogin onSubmit={createSubmitHandler}>
-                <Form.Group>
-                    <Form.File label='Product image' lang='en' custom onChange={e => setImage(e.target.value)} />
+                <Form.Group controlId='image'>
+                    <Form.Label>Image</Form.Label>
+                    <Form.Control type='text' placeholder='Product image' onChange={e=>setImage(e.target.value)}/>
                 </Form.Group>
                 <Form.Group controlId='name'>
                     <Form.Label>Name</Form.Label>

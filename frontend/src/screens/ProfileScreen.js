@@ -107,6 +107,7 @@ export const ProfileScreen = ({ location, history }) => {
                                     <th>TOTAL</th>
                                     <th>PAID</th>
                                     <th>DELIVERED</th>
+                                    <th>MORE</th>
                                 </tr>
                             </thead>
                             <tbody>

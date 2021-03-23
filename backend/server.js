@@ -6,13 +6,12 @@ import productRoutes from './routes/productRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
-import uploadRoutes from './routes/uploadRoutes.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
- 
+
 dotenv.config();
 
 connectDB()
-    
+
 const PORT = process.env.PORT || 5000
 
 const app = express()
@@ -31,13 +30,13 @@ app.use('/api/orders', orderRoutes)
 
 app.use('/api/admin', adminRoutes)
 
-app.use('/api/upload', uploadRoutes)
-
 app.get('/api/config/paypal', (req,res) => res.send(process.env.PAYPAL_CLIENT_ID))
 
-//to convert __dirname available in the es modules also
-const __dirname = path.resolve()
-app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+// import uploadRoutes from './routes/uploadRoutes.js'
+// app.use('/api/upload', uploadRoutes)
+// //to convert __dirname available in the es modules also
+// const __dirname = path.resolve()
+// app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
 
 app.use(notFound)
 

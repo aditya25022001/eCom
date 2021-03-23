@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux'
 import { FormLogin } from '../components/FormLogin'
 import { getProductDetailsByAdmin } from '../actions/userActions'
@@ -13,7 +12,7 @@ import {ADMIN_PRODUCT_UPDATE_RESET} from '../constants/userConstants'
 export const ProductEditScreen = ({match, history}) => {
 
     const pid = match.params.id
-
+    
     const [name, setName] = useState('')
     const [category, setCategory] = useState('')
     const [price, setPrice] = useState('')
@@ -21,16 +20,15 @@ export const ProductEditScreen = ({match, history}) => {
     const [publisher, setPublisher] = useState('')
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('')
-    const [uploading, setUploading] = useState(false)
-
+    
     const dispatch = useDispatch()
-
+    
     const productDetailsByAdmin = useSelector(state => state.productDetailsByAdmin)
     const { loading, error, product } = productDetailsByAdmin
-
+    
     const productUpdate = useSelector(state => state.productUpdate)
     const { loading:loadingUpdate, error:errorUpdate, success } = productUpdate
-
+    
     useEffect(() =>{
         if(success){
             dispatch({ type: ADMIN_PRODUCT_UPDATE_RESET })
@@ -52,12 +50,35 @@ export const ProductEditScreen = ({match, history}) => {
             }
         }
     },[dispatch, product, pid, success, history])
-
+    
     const updateSubmitHandler = (e) => {
         e.preventDefault()
         dispatch(adminUpdateProduct({_id:pid, name, category, price, description, countInStock, publisher, image}))
         console.log({name},{price},{category},{image},{description},{countInStock},{publisher})
     }
+    
+    //uploading file via muler but not working fine 
+    // import axios from 'axios';
+    // const [uploading, setUploading] = useState(false)
+    // const uploadFileHandler = async (e) => {
+        //     const file = e.target.files[0]
+    //     const formData = new FormData()
+    //     formData.append('image',file)
+    //     setUploading(true)
+    //     try {
+    //         const config={
+    //             headers:{
+    //                 'Content-Type': 'multipart/form-data'
+    //             }
+    //         }
+    //         const data = await axios.post('/api/upload', formData, config)
+    //         setImage(data)
+    //         setUploading(false)
+    //     } catch (error) {
+    //         console.log(error);
+    //         setUploading(false)
+    //     }
+    // }
 
     return (
         <>
@@ -73,9 +94,9 @@ export const ProductEditScreen = ({match, history}) => {
             ? <Message variant='danger'>{error}</Message>
             :(
             <FormLogin onSubmit={updateSubmitHandler}>
-                <Form.Group>
+                <Form.Group controlId='image'>
                     <Image src={image} fluid className='mb-2' />
-                    <Form.File id='image-file' label='Change Image ?' lang='en' custom onChange={} custom />
+                    <Form.Control value={image} onChange={e=>setImage(e.target.value)}/>
                 </Form.Group>
                 <Form.Group controlId='name'>
                     <Form.Label>Name</Form.Label>

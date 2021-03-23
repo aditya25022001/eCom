@@ -1,3 +1,7 @@
+
+//not working with//have to debug this//for then just manually uploading files and images
+
+
 import multer from 'multer';
 import path from 'path';
 import express from 'express';
@@ -10,12 +14,12 @@ const storage = multer.diskStorage({
     },
     fileName(req, file, cb){
         // formating the file name
-        cb('null',`${file.fieldName}-${Date.now()}${path.extname(file.originalname)}`)
+        cb('null',`/${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`)
     }
 })
 
 function checkFileType(file, cb){
-    const filetypes = /jpg|jpeg|png/
+    const fileTypes = /jpg|jpeg|png/
     const extname = fileTypes.test(path.extname(file.originalname).toLowerCase())
     const mimeType = fileTypes.test(file.mimeType)
 
@@ -35,7 +39,7 @@ const upload = multer({
 })
 
 router.post('/', upload.single('image'), (req, res) => {
-    res.send(`${req.file.path}`)
+    res.send(`/${req.file.path}`)
 })
 
 export default router
