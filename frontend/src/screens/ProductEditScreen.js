@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react'
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux'
 import { FormLogin } from '../components/FormLogin'
 import { getProductDetailsByAdmin } from '../actions/userActions'
@@ -20,6 +21,7 @@ export const ProductEditScreen = ({match, history}) => {
     const [publisher, setPublisher] = useState('')
     const [description, setDescription] = useState('')
     const [image, setImage] = useState('')
+    const [uploading, setUploading] = useState(false)
 
     const dispatch = useDispatch()
 
@@ -32,6 +34,7 @@ export const ProductEditScreen = ({match, history}) => {
     useEffect(() =>{
         if(success){
             dispatch({ type: ADMIN_PRODUCT_UPDATE_RESET })
+            dispatch(getProductDetailsByAdmin(pid))
             history.push('/admin/products')
         }
         else{
@@ -72,7 +75,7 @@ export const ProductEditScreen = ({match, history}) => {
             <FormLogin onSubmit={updateSubmitHandler}>
                 <Form.Group>
                     <Image src={image} fluid className='mb-2' />
-                    <Form.File label='Change Image ?' lang='en' custom onChange={e => setImage(e.target.value)} />
+                    <Form.File id='image-file' label='Change Image ?' lang='en' custom onChange={} custom />
                 </Form.Group>
                 <Form.Group controlId='name'>
                     <Form.Label>Name</Form.Label>

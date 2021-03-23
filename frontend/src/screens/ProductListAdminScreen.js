@@ -57,7 +57,7 @@ export const ProductListAdminScreen = ({history}) => {
         <ListGroup>
             {products && 
                 products.map(product =>(
-                    <ListGroup.Item key={product._id}>
+                    <ListGroup.Item key={product._id} style={{ border:'0.5px ridge gray'}} className='my-1'>
                         <Row md={8} sm={0}>
                             <Col md={4}>
                                 <Image src={product.image} md={6} rounded/>
