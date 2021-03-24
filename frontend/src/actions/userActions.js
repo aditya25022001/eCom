@@ -47,7 +47,10 @@ import { USER_DETAILS_FAIL,
     PRODUCT_ADD_FAIL,
     ORDER_LIST_ADMIN_REQUEST,
     ORDER_LIST_ADMIN_SUCCESS,
-    ORDER_LIST_ADMIN_FAIL} from "../constants/userConstants"
+    ORDER_LIST_ADMIN_FAIL,
+    ORDER_DETAILS_ADMIN_REQUEST,
+    ORDER_DETAILS_ADMIN_SUCCESS,
+    ORDER_DETAILS_ADMIN_FAIL} from "../constants/userConstants"
 
 import { PRODUCT_DETAILS_SUCCESS } from '../constants/productConstants'
 
@@ -549,6 +552,43 @@ export const listOrdersByAdmin = () => async (dispatch, getState) => {
     } catch (error) {
         dispatch({
             type: ORDER_LIST_ADMIN_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+        })
+    }
+}
+
+export const getOrderDetailsByAdmin = (id, nameUrl) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: ORDER_DETAILS_ADMIN_REQUEST
+        })
+
+        const { userLogin : { userInfo } } = getState()
+
+        const config = {
+            headers:{
+                'Content-type':'application/json',
+                 Authorization : `Bearer ${userInfo.token}`
+            }
+        }
+
+        if(userInfo.isAdmin){
+            const { data } = await axios.get(`/api/admin/order/${id}/${nameUrl}`, config)
+    
+            console.log(data);
+    
+            dispatch({
+                type:ORDER_DETAILS_ADMIN_SUCCESS,
+                payload:data
+            })
+        }
+        else{
+            throw new Error("Not authorized")
+        }
+
+    } catch (error) {
+        dispatch({
+            type: ORDER_DETAILS_ADMIN_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }

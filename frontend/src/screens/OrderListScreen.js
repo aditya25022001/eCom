@@ -61,15 +61,15 @@ export const OrderListScreen = ({history}) => {
                               </Tooltip>
                               <td>{order.orderItems.length}</td>
                               <td>{order.totalPrice}</td>
-                              <td>{order.isPaid ? 'YES' : 'NO'}</td>
-                              <td>{order.isDelivered ? 'YES' : 'NO'}</td>
+                              <td>{order.isPaid ? order.paidAt.toString().slice(0,10) : 'NO'}</td>
+                              <td>{order.isDelivered ? order.deliveredAt.toString().slice(0,10) : 'NO'}</td>
                               <td className='px-3'>
-                                <LinkContainer to={`/admin/order/${order._id}/edit`} className='px-3'>
+                                <LinkContainer to={`/admin/order/${order._id}/edit`}>
                                     <Button variant='dark' className='btn-sm'>
                                         <i className='fas fa-edit' />
                                     </Button>
                                 </LinkContainer> 
-                                <LinkContainer to={`/admin/order/${order._id}/view`} className='px-3'>
+                                <LinkContainer to={`/admin/order/${order._id}/${order.user.name}`}>
                                     <Button variant='dark' className='btn-sm'>
                                         <i className='fas fa-eye' />
                                     </Button>

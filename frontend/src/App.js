@@ -13,6 +13,7 @@ import { PlaceorderScreen } from './screens/PlaceorderScreen';
 import { OrderScreen } from './screens/OrderScreen';
 import { UserListScreen } from './screens/UserListScreen';
 import { OrderListScreen } from './screens/OrderListScreen';
+import { OrderScreenById } from './screens/OrderScreenById';
 import { EditScreen } from './screens/EditScreen';
 import { ProductEditScreen } from './screens/ProductEditScreen';
 import { ProductListAdminScreen } from './screens/ProductListAdminScreen';
@@ -25,20 +26,21 @@ function App() {
       <Header />
       <main className='py-3'>
         <Container>
-          <Route path='/order/:id' component={OrderScreen}></Route>
-          <Route path='/shipping' component={ShippingScreen}></Route>
-          <Route path='/payment' component={PaymentScreen}></Route>
-          <Route path='/placeorder' component={PlaceorderScreen}></Route>
-          <Route path='/login' component={LoginScreen}></Route>
-          <Route path='/register' component={RegisterScreen}></Route>
-          <Route path='/profile' component={ProfileScreen}></Route>
-          <Route path='/admin/products' component={ProductListAdminScreen}></Route>
-          <Route path='/admin/users' component={UserListScreen}></Route>
-          <Route path='/admin/orders' component={OrderListScreen}></Route>
-          <Route path='/admin/user/:id/edit' component={EditScreen}></Route>
-          <Route path='/admin/product/:id/edit' component={ProductEditScreen}></Route>
-          <Route path="/product/:id" component={ProductScreen} />
-          <Route path="/admin/addproduct" component={CreateProductScreen}></Route>
+          <Route path='/order/:id' component={OrderScreen} exact></Route>
+          <Route path='/shipping' component={ShippingScreen} exact></Route>
+          <Route path='/payment' component={PaymentScreen} exact></Route>
+          <Route path='/placeorder' component={PlaceorderScreen} exact></Route>
+          <Route path='/login' component={LoginScreen} exact></Route>
+          <Route path='/register' component={RegisterScreen} exact></Route>
+          <Route path='/profile' component={ProfileScreen} exact></Route>
+          <Route path='/admin/products' component={ProductListAdminScreen} exact></Route>
+          <Route path='/admin/users' component={UserListScreen} exact></Route>
+          <Route path='/admin/orders' component={OrderListScreen} exact></Route>
+          <Route path='/admin/order/:id/:name' component={OrderScreenById} exact></Route>
+          <Route path='/admin/user/:id/edit' component={EditScreen} exact></Route>
+          <Route path='/admin/product/:id/edit' component={ProductEditScreen} exact></Route>
+          <Route path="/product/:id" component={ProductScreen} exact/>
+          <Route path="/admin/addproduct" component={CreateProductScreen} exact></Route>
           <Route path="/cart/:id?" component={CartScreen} /> {/* ? in any path says that the passed parameter in optional */}
           <Route path="/" component={HomeScreen} exact />   {/* component says whichone to open when / achieved and exact syas that excact path is needed */}
         </Container>
