@@ -573,7 +573,7 @@ export const getOrderDetailsByAdmin = (id, nameUrl) => async (dispatch, getState
         }
 
         if(userInfo.isAdmin){
-            const { data } = await axios.get(`/api/admin/order/${id}/${nameUrl}`, config)
+            const { data } = await axios.get(`/api/admin/view/order/${id}/${nameUrl}`, config)
     
             console.log(data);
     

@@ -13,6 +13,7 @@ import { PlaceorderScreen } from './screens/PlaceorderScreen';
 import { OrderScreen } from './screens/OrderScreen';
 import { UserListScreen } from './screens/UserListScreen';
 import { OrderListScreen } from './screens/OrderListScreen';
+import { OrderEditScreen } from './screens/OrderEditScreen';
 import { OrderScreenById } from './screens/OrderScreenById';
 import { EditScreen } from './screens/EditScreen';
 import { ProductEditScreen } from './screens/ProductEditScreen';
@@ -36,8 +37,9 @@ function App() {
           <Route path='/admin/products' component={ProductListAdminScreen} exact></Route>
           <Route path='/admin/users' component={UserListScreen} exact></Route>
           <Route path='/admin/orders' component={OrderListScreen} exact></Route>
-          <Route path='/admin/order/:id/:name' component={OrderScreenById} exact></Route>
+          <Route path='/admin/view/order/:id/:name' component={OrderScreenById} exact></Route>
           <Route path='/admin/user/:id/edit' component={EditScreen} exact></Route>
+          <Route path='/admin/update/order/:id' component={OrderEditScreen} exact></Route>
           <Route path='/admin/product/:id/edit' component={ProductEditScreen} exact></Route>
           <Route path="/product/:id" component={ProductScreen} exact/>
           <Route path="/admin/addproduct" component={CreateProductScreen} exact></Route>

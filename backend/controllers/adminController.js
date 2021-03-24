@@ -178,7 +178,7 @@ const getOrdersByAdmin = asyncHandler(async (req, res) => {
 })
 
 //description     get order details by admin
-//route           GET/api/admin/order/:id/:name
+//route           GET/api/admin/view/order/:id/:name
 //access          private/admin
 const getOrderDetailsByAdmin = asyncHandler(async (req, res) => {
     const order = await Order.findById(req.params.id)
@@ -192,4 +192,18 @@ const getOrderDetailsByAdmin = asyncHandler(async (req, res) => {
     }
 })
 
-export {getUsers, deleteUser, getUserById, updateUserAccess, getProductListByAdmin, getProductById, updateProductDetails, deleteProduct, addProduct, getOrdersByAdmin, getOrderDetailsByAdmin}
+//description      get details to mark delivered
+//route            GET/api/admin/order/:id/edit
+//access           private admin
+const getOrderDetailsForUpdate = asyncHandler(async(req,res) => {
+    const order = await Order.findById(req.params.id)
+    if(order){
+        res.json(order)
+    }
+    else{
+        res.status(404)
+        throw new Error("Not found")
+    }
+})
+
+export {getUsers, deleteUser, getUserById, updateUserAccess, getProductListByAdmin, getProductById, updateProductDetails, deleteProduct, addProduct, getOrdersByAdmin, getOrderDetailsByAdmin, getOrderDetailsForUpdate}
