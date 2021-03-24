@@ -1,6 +1,7 @@
 import User from '../models/userModel.js' 
 import asyncHandler from 'express-async-handler'
 import Product from '../models/productModel.js'
+import Order from '../models/orderModel.js'
 
 //description      get all users
 //route            GET/api/admin/users
@@ -106,8 +107,6 @@ const updateProductDetails = asyncHandler(async(req,res) => {
         product.publisher = publisher
         product.description = description
         product.image = image
-
-        console.log(req.body)
         
         const updatedProduct =  await product.save()
         
@@ -164,4 +163,18 @@ const addProduct = asyncHandler(async(req, res) => {
     res.status(201).json(createdProduct)
 })
 
-export {getUsers, deleteUser, getUserById, updateUserAccess, getProductListByAdmin, getProductById, updateProductDetails, deleteProduct, addProduct}
+//description       get all orders
+//route            GET/api/admin/orders
+//access           private/admin
+const getOrdersByAdmin = asyncHandler(async (req, res) => {
+    const orders = await Order.find({}).populate('user', 'id name')
+    if(orders){
+        res.json(orders)
+    }
+    else{
+        res.status(401)
+        throw new Error("Not authorized")
+    }
+})
+
+export {getUsers, deleteUser, getUserById, updateUserAccess, getProductListByAdmin, getProductById, updateProductDetails, deleteProduct, addProduct, getOrdersByAdmin}

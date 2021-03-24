@@ -12,6 +12,7 @@ import { PaymentScreen } from './screens/PaymentScreen';
 import { PlaceorderScreen } from './screens/PlaceorderScreen';
 import { OrderScreen } from './screens/OrderScreen';
 import { UserListScreen } from './screens/UserListScreen';
+import { OrderListScreen } from './screens/OrderListScreen';
 import { EditScreen } from './screens/EditScreen';
 import { ProductEditScreen } from './screens/ProductEditScreen';
 import { ProductListAdminScreen } from './screens/ProductListAdminScreen';
@@ -33,6 +34,7 @@ function App() {
           <Route path='/profile' component={ProfileScreen}></Route>
           <Route path='/admin/products' component={ProductListAdminScreen}></Route>
           <Route path='/admin/users' component={UserListScreen}></Route>
+          <Route path='/admin/orders' component={OrderListScreen}></Route>
           <Route path='/admin/user/:id/edit' component={EditScreen}></Route>
           <Route path='/admin/product/:id/edit' component={ProductEditScreen}></Route>
           <Route path="/product/:id" component={ProductScreen} />
