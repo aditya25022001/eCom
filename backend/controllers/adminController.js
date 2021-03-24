@@ -206,4 +206,26 @@ const getOrderDetailsForUpdate = asyncHandler(async(req,res) => {
     }
 })
 
-export {getUsers, deleteUser, getUserById, updateUserAccess, getProductListByAdmin, getProductById, updateProductDetails, deleteProduct, addProduct, getOrdersByAdmin, getOrderDetailsByAdmin, getOrderDetailsForUpdate}
+//description    update order as delivered
+//route          PUT/api/admin/order/:id/edit
+//access         private/admin
+const updateOrderStatus = asyncHandler(async (req,res) => {
+   
+    const order = await Order.findById(req.params.id)
+
+    order.isDelivered = req.body.delivered
+
+    order.deliveredAt = Date.now()
+
+    const updatedOrder = await order.save() 
+   
+    if(order){
+        res.json(updatedOrder)
+    }
+    else{
+        res.status(404)
+        throw new Error("Not found")
+    }
+})
+
+export {getUsers, deleteUser, getUserById, updateUserAccess, getProductListByAdmin, getProductById, updateProductDetails, deleteProduct, addProduct, getOrdersByAdmin, getOrderDetailsByAdmin, getOrderDetailsForUpdate, updateOrderStatus}

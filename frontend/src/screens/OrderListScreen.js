@@ -29,7 +29,7 @@ export const OrderListScreen = ({history}) => {
                 dispatch(listOrdersByAdmin())
             }
         }
-    },[dispatch,history])
+    },[dispatch,history,userInfo])
 
     const style={
         fontWeight:600,
@@ -46,6 +46,7 @@ export const OrderListScreen = ({history}) => {
                   <thead>
                       <tr>
                           <th>USER</th>
+                          <th>ORDERED ON</th>
                           <th>ORDER ITEMS</th>
                           <th>PRICE</th>
                           <th>PAID</th>
@@ -59,12 +60,13 @@ export const OrderListScreen = ({history}) => {
                               <Tooltip title={order.user._id} placement="left">
                                 <td>{order.user.name}</td>
                               </Tooltip>
+                              <td>{order.createdAt.toString().slice(0,10)}</td>
                               <td>{order.orderItems.length}</td>
                               <td>{order.totalPrice}</td>
                               <td>{order.isPaid ? order.paidAt.toString().slice(0,10) : 'NO'}</td>
                               <td>{order.isDelivered ? order.deliveredAt.toString().slice(0,10) : 'NO'}</td>
                               <td className='px-3'>
-                                <LinkContainer to={`/admin/update/order/${order._id}`}>
+                                <LinkContainer to={`/admin/update/order/${order._id}`} disabled={order.isDelivered} > 
                                     <Button variant='dark' className='btn-sm'>
                                         <i className='fas fa-edit' />
                                     </Button>

@@ -54,7 +54,10 @@ import {
     ORDER_LIST_ADMIN_FAIL,
     ORDER_DETAILS_ADMIN_REQUEST,
     ORDER_DETAILS_ADMIN_SUCCESS,
-    ORDER_DETAILS_ADMIN_FAIL
+    ORDER_DETAILS_ADMIN_FAIL,
+    ORDER_DETAILS_ADMIN_UPDATE_REQUEST,
+    ORDER_DETAILS_ADMIN_UPDATE_SUCCESS,
+    ORDER_DETAILS_ADMIN_UPDATE_FAIL
 } from '../constants/userConstants.js'
 
 export const userLoginReducer = (state = { }, action ) => {
@@ -345,6 +348,51 @@ export const orderDetailsByAdminReducer = (state = { order: [] }, action ) => {
             return { 
                 loading:false, 
                 error : action.payload 
+            }
+        default:
+            return state
+    }
+}
+
+export const orderDetailsByAdminUpdateReducer = (state = { order: { } }, action ) => {
+    switch (action.type){
+        case ORDER_DETAILS_ADMIN_UPDATE_REQUEST:
+            return {
+                loading:true 
+            }
+        case ORDER_DETAILS_ADMIN_UPDATE_SUCCESS:
+            return { 
+                loading:false, 
+                order: action.payload 
+            }
+        case ORDER_DETAILS_ADMIN_UPDATE_FAIL:
+            return { 
+                loading:false, 
+                error : action.payload 
+            }
+        default:
+            return state
+    }
+}
+
+export const orderUpdateReducer = (state = { order:{} },action) => {
+    switch(action.type){
+        case ADMIN_PRODUCT_UPDATE_REQUEST:
+            return {
+                loading:true
+            }
+        case ADMIN_PRODUCT_UPDATE_SUCCESS:
+            return{
+                loading:false,
+                success:true
+            }
+        case ADMIN_PRODUCT_UPDATE_FAIL:
+            return {
+                loading:false,
+                error:action.payload
+            }
+        case ADMIN_PRODUCT_UPDATE_RESET:
+            return{ 
             }
         default:
             return state

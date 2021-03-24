@@ -50,7 +50,14 @@ import { USER_DETAILS_FAIL,
     ORDER_LIST_ADMIN_FAIL,
     ORDER_DETAILS_ADMIN_REQUEST,
     ORDER_DETAILS_ADMIN_SUCCESS,
-    ORDER_DETAILS_ADMIN_FAIL} from "../constants/userConstants"
+    ORDER_DETAILS_ADMIN_FAIL,
+    ADMIN_ORDER_UPDATE_REQUEST,
+    ADMIN_ORDER_UPDATE_SUCCESS,
+    ADMIN_ORDER_UPDATE_FAIL,
+    ORDER_DETAILS_ADMIN_UPDATE_REQUEST,
+    ORDER_DETAILS_ADMIN_UPDATE_SUCCESS,
+    ORDER_DETAILS_ADMIN_UPDATE_FAIL
+} from "../constants/userConstants"
 
 import { PRODUCT_DETAILS_SUCCESS } from '../constants/productConstants'
 
@@ -590,6 +597,82 @@ export const getOrderDetailsByAdmin = (id, nameUrl) => async (dispatch, getState
         dispatch({
             type: ORDER_DETAILS_ADMIN_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.message
+        })
+    }
+}
+
+export const getOrderDetailsByAdminForUpdate = (id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: ORDER_DETAILS_ADMIN_UPDATE_REQUEST
+        })
+
+        const { userLogin : { userInfo } } = getState()
+
+        const config = {
+            headers:{
+                'Content-type':'application/json',
+                 Authorization : `Bearer ${userInfo.token}`
+            }
+        }
+
+        if(userInfo.isAdmin){
+            const { data } = await axios.get(`/api/admin/order/${id}`, config)
+    
+            console.log(data);
+    
+            dispatch({
+                type:ORDER_DETAILS_ADMIN_UPDATE_SUCCESS,
+                payload:data
+            })
+        }
+        else{
+            throw new Error("Not authorized")
+        }
+
+    } catch (error) {
+        dispatch({
+            type: ORDER_DETAILS_ADMIN_UPDATE_FAIL,
+            payload: error.response && error.response.data.message ? error.response.data.message : error.message
+        })
+    }
+}
+
+export const adminUpdateOrder = (order) => async(dispatch,getState) => {
+    try {
+        dispatch({
+            type:ADMIN_ORDER_UPDATE_REQUEST
+        })
+
+        const { userLogin:{userInfo} } = getState()
+
+        const config = {
+            headers:{
+                'content-type':'application/json',
+                Authorization:`Bearer ${userInfo.token}`
+            }
+        } 
+
+        if(userInfo.isAdmin){
+            const { data } = await axios.put(`/api/admin/order/${order._id}/edit`,order,config)
+
+            dispatch({
+                type:ADMIN_ORDER_UPDATE_SUCCESS,
+            })
+
+            dispatch({
+                type:ORDER_LIST_ADMIN_SUCCESS,
+                payload:data
+            })
+        }
+        else{
+            throw new Error('Not authorized')
+        }
+        
+    } catch (error) {
+        dispatch({
+            type:ADMIN_ORDER_UPDATE_FAIL,
+            payload:error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
 }

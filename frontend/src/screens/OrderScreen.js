@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import {getOrderDetails, payOrder} from '../actions/orderActions'
 import {ORDER_PAY_RESET} from '../constants/orderConstants'
 
-export const OrderScreen = ({match}) => {
+export const OrderScreen = ({match, history}) => {
 
     const [sdkReady, setSdkReady] = useState(false)
 
@@ -53,22 +53,27 @@ export const OrderScreen = ({match}) => {
             script.onload = () => {setSdkReady(true)}
             document.body.appendChild(script)
         }
-        if(!order || successPay){
-            dispatch({type:ORDER_PAY_RESET})
-            dispatch(getOrderDetails(orderId))
+        if(!userInfo){
+            history.push('/login')
         }
-        else if(!order.isPaid){
-                if(!window.paypal){
-                    addPayPalScript()
-                }
-                else{
-                    setSdkReady(true)
-                }
+        else{
+            if(!order || successPay){
+                dispatch({type:ORDER_PAY_RESET})
+                dispatch(getOrderDetails(orderId))
             }
-    },[order,orderId,dispatch,successPay])
+            else if(!order.isPaid){
+                    if(!window.paypal){
+                        addPayPalScript()
+                    }
+                    else{
+                        setSdkReady(true)
+                    }
+                }
+        }
+    },[order,orderId,dispatch,successPay, userInfo])
 
     const successPaymentHandler = (paymentResult) => {
-        console.log(paymentResult)
+        // console.log(paymentResult)
         dispatch(payOrder(orderId,paymentResult))
     }
 
@@ -77,41 +82,44 @@ export const OrderScreen = ({match}) => {
             : error 
             ? <Message variant='danger'>{error}</Message>
             :<>
-                <h1>Order {order._id}</h1>
+                <h3>Order Details</h3>
                 <Row>
             <Col md={8}>
                 <ListGroup variant='flush'>
                     <ListGroup.Item>
-                        <h3>Shipping to :</h3> 
+                        <h5>Id:{order._id}</h5>
+                    </ListGroup.Item>
+                    <ListGroup.Item>
+                        <h4>Shipping to :</h4> 
                         <h6>{userInfo.name}</h6>
                     </ListGroup.Item>
                    
                     <ListGroup.Item>
-                        <h3>Shipping address : </h3>
+                        <h4>Shipping address : </h4>
                         <h6>{order.shippingAddress.address} , {order.shippingAddress.city} , {order.shippingAddress.postalCode} , {order.shippingAddress.country}</h6>
                         <p>
                             {order.isDelivered 
-                                ? (<Message variant='success'>Delivered on : {order.DeliveredAt}</Message>) 
+                                ? (<Message variant='success'>Delivered on : {order.deliveredAt.toString().slice(0,10)}</Message>) 
                                 : (<Message variant='danger'>Not Delivered</Message>)
                             }
                         </p>
                    </ListGroup.Item>
                    
                     <ListGroup.Item>
-                        <h3>Payment : </h3>
+                        <h4>Payment : </h4>
                         <p>
                         <h6><b>Method : </b> {order.paymentMethod}</h6>
                         </p>
                         <p>
                             {order.isPaid 
-                                ? (<Message variant='success'>Paid on : {order.paidAt}</Message>) 
+                                ? (<Message variant='success'>Paid on : {order.paidAt.toString().slice(0,10)}</Message>) 
                                 : (<Message variant='danger'>Not paid</Message>)
                             }
                         </p>
                     </ListGroup.Item>
 
                     <ListGroup.Item>
-                        <h3>Order Items</h3>
+                        <h4>Order Items</h4>
                         {order.orderItems.length === 0 
                             ?<Message>No items in your orders</Message>
                             :(
