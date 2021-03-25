@@ -13,7 +13,6 @@ export const SearchBar = ({history}) => {
         else{
             history.push('/')
         }
-        console.log(keyWord)
     }
 
     return (

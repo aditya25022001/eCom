@@ -19,7 +19,7 @@ export const HomeScreen = ({ match }) => {
 
     useEffect(() => {
         dispatch(listProducts(keyWord))
-    }, [dispatch])
+    }, [dispatch,keyWord])
     
     return (
         <>
