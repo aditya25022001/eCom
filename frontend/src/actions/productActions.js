@@ -4,7 +4,10 @@ import {
     PRODUCT_LIST_REQUEST,
     PRODUCT_DETAILS_SUCCESS, 
     PRODUCT_DETAILS_FAIL, 
-    PRODUCT_DETAILS_REQUEST 
+    PRODUCT_DETAILS_REQUEST,
+    PRODUCT_REVIEW_REQUEST,
+    PRODUCT_REVIEW_SUCCESS,
+    PRODUCT_REVIEW_FAIL 
 } from '../constants/productConstants.js'
 import axios from 'axios'
 
@@ -40,6 +43,40 @@ export const listProductDetails = (id) => async (dispatch) => {
         dispatch({
             type: PRODUCT_DETAILS_FAIL,
             payload: error.response && error.response.data.message ? error.response.data.message : error.message
+        })
+    }
+}
+
+export const addReviewProduct = (id, review) => async (dispatch,getState) => {
+    try{    
+        dispatch({ 
+            type:PRODUCT_REVIEW_REQUEST
+        })
+
+        const { userLogin : {userInfo} } = getState()
+
+        if(userInfo){
+            const config={
+                headers:{
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${userInfo.token}`
+                }
+            }
+
+            await axios.post(`/api/products/${id}/review`,review,config)
+
+            dispatch({
+                type:PRODUCT_REVIEW_SUCCESS
+            })
+        }
+        else{
+            throw new Error("Not logged in")
+        }
+    }
+    catch(error){
+        dispatch({
+            type:PRODUCT_REVIEW_FAIL,
+            payload:error.response && error.response.data.message ? error.response.data.message : error.message
         })
     }
 }

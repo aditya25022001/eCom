@@ -6,15 +6,26 @@ import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails } from '../actions/productActions'
 import { Loader } from '../components/Loader'
 import { Message } from '../components/Message'
+import { PRODUCT_REVIEW_RESET } from '../constants/productConstants'
 
 export const ProductScreen = ( { history, match } ) => {
 
     const [Quantity, setQuantity] = useState("1")
 
+    const [rating, setRating] = useState(0)
+    
+    const [comment, setComment] = useState("")
+
     const dispatch = useDispatch()
     
     const productDetails = useSelector(state => state.productDetails)
     const { loading, error, product } = productDetails
+
+    const userLogin = useSelector(state => state.userLogin)
+    const { userInfo } = userLogin
+
+    const reviewProduct = useSelector(state => state.reviewProduct)
+    const { loading:loadingReview, error:errorReview, success } = reviewProduct
 
     useEffect( () => {
         dispatch(listProductDetails(match.params.id))
@@ -28,6 +39,7 @@ export const ProductScreen = ( { history, match } ) => {
         <>
             <Link className="btn btn-dark my-3 rounded" to="/">Go Back</Link>
             { loading ? <Loader/> : error ? <Message variant="danger">{error}</Message> : (
+                <>
                 <Row>
                 <Col md={3}>
                     <Image src={product.image} alt={product.name} fluid />
@@ -100,6 +112,31 @@ export const ProductScreen = ( { history, match } ) => {
                     </Card>
                 </Col>
             </Row>
+            <Row>
+                <Col md={6}>
+                    <h4>Reviews</h4>
+                    {product.reviews.length ===0 && <Message variant='primary' >No Reviews</Message>}
+                    <ListGroup variant='flush'>
+                        <ListGroup.Item>
+                            <h4>Write a review</h4>
+                            {userInfo ? (<h1></h1>) : <Message variant='danger'>Please <Link to="/login">Sign In</Link> to write a review</Message>} 
+                        </ListGroup.Item>
+                        {product.reviews.map(review => (
+                            <ListGroup.Item key={review._id}>
+                                <b>{review.name}</b>
+                                <Rating rating={review.rating}/>
+                                <p>
+                                    {review.createdAt.slice(0,10)}
+                                </p>
+                                <p>
+                                    {review.comment}
+                                </p>
+                            </ListGroup.Item>
+                        ))}
+                    </ListGroup>
+                </Col>
+            </Row>
+            </>
             )}
         </>
     )
