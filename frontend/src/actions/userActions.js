@@ -619,8 +619,6 @@ export const getOrderDetailsByAdminForUpdate = (id) => async (dispatch, getState
         if(userInfo.isAdmin){
             const { data } = await axios.get(`/api/admin/order/${id}`, config)
     
-            console.log(data);
-    
             dispatch({
                 type:ORDER_DETAILS_ADMIN_UPDATE_SUCCESS,
                 payload:data
@@ -661,7 +659,7 @@ export const adminUpdateOrder = (order) => async(dispatch,getState) => {
             })
 
             dispatch({
-                type:ORDER_LIST_ADMIN_SUCCESS,
+                type:ORDER_DETAILS_ADMIN_UPDATE_SUCCESS,
                 payload:data
             })
         }

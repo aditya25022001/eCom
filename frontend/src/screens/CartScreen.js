@@ -43,7 +43,6 @@ export const CartScreen = ({ match, location, history }) => {
                             Go Back
                         </Link> 
                     </Message>
-
                 ) 
                 : (
                     <ListGroup variant="flush">

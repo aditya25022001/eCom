@@ -39,11 +39,11 @@ function App() {
           <Route path='/admin/orders' component={OrderListScreen} exact></Route>
           <Route path='/admin/view/order/:id/:name' component={OrderScreenById} exact></Route>
           <Route path='/admin/user/:id/edit' component={EditScreen} exact></Route>
-          <Route path='/admin/update/order/:id' component={OrderEditScreen} exact></Route>
+          <Route path='/admin/order/:id/edit' component={OrderEditScreen} exact></Route>
           <Route path='/admin/product/:id/edit' component={ProductEditScreen} exact></Route>
           <Route path="/product/:id" component={ProductScreen} exact/>
           <Route path="/admin/addproduct" component={CreateProductScreen} exact></Route>
-          <Route path="/cart/:id?" component={CartScreen} /> {/* ? in any path says that the passed parameter in optional */}
+          <Route path="/cart/:id?" component={CartScreen} /> {/* ? in any path says that the passed parameter is optional */}
           <Route path="/" component={HomeScreen} exact />   {/* component says whichone to open when / achieved and exact syas that excact path is needed */}
         </Container>
       </main>

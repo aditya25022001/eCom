@@ -18,23 +18,18 @@ export const OrderListScreen = ({history}) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        if(!userInfo){
-            history.push('/login')
+        if(userInfo && userInfo.isAdmin){
+            dispatch(listOrdersByAdmin())
         }
         else{
             if(!userInfo.isAdmin){
                 history.push('/')
             }
             else{
-                dispatch(listOrdersByAdmin())
+                history.push('/login')
             }
         }
     },[dispatch,history,userInfo])
-
-    const style={
-        fontWeight:600,
-        color:'black'
-    }
 
     return (
         <>
@@ -55,7 +50,7 @@ export const OrderListScreen = ({history}) => {
                       </tr>
                   </thead>
                   <tbody>
-                      {orders.map(order => (
+                      {orders && orders.map(order => (
                           <tr key={order._id}>
                               <Tooltip title={order.user._id} placement="left">
                                 <td>{order.user.name}</td>
@@ -66,7 +61,7 @@ export const OrderListScreen = ({history}) => {
                               <td>{order.isPaid ? order.paidAt.toString().slice(0,10) : 'NO'}</td>
                               <td>{order.isDelivered ? order.deliveredAt.toString().slice(0,10) : 'NO'}</td>
                               <td className='px-3'>
-                                <LinkContainer to={`/admin/update/order/${order._id}`} disabled={order.isDelivered} > 
+                                <LinkContainer to={`/admin/order/${order._id}/edit`} disabled={order.isDelivered} > 
                                     <Button variant='dark' className='btn-sm'>
                                         <i className='fas fa-edit' />
                                     </Button>

@@ -28,8 +28,8 @@ export const OrderEditScreen = ({match, history}) => {
 
     useEffect(()=>{
         if(success){
-            history.push('/admin/orders')
             dispatch({type:ADMIN_ORDER_UPDATE_RESET})
+            history.push('/admin/orders')
         }
         else{
             if(!order || order._id!==oid){
@@ -48,6 +48,7 @@ export const OrderEditScreen = ({match, history}) => {
     const submitHandlerAdmin = (e) => {
         e.preventDefault()
         dispatch(adminUpdateOrder({_id:oid, delivered}))
+        console.log(success)
     }
 
     return (
@@ -83,7 +84,7 @@ export const OrderEditScreen = ({match, history}) => {
                 <Form.Group controlId='delivered'>
                     <Form.Check label="Delivered" checked={delivered} onChange={e => setDelivered(e.target.checked)} />
                 </Form.Group>
-                <Button type='submit' variant='primary' onClick={e => submitHandlerAdmin(e)} >Update</Button>
+                <Button type='submit' variant='primary' onClick={e => submitHandlerAdmin(e)}>Update</Button>
             </FormLogin>
             )}
         </>
