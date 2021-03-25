@@ -6,9 +6,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails } from '../actions/productActions'
 import { Loader } from '../components/Loader'
 import { Message } from '../components/Message'
+import { addReviewProduct } from '../actions/productActions'
 import { PRODUCT_REVIEW_RESET } from '../constants/productConstants'
 
 export const ProductScreen = ( { history, match } ) => {
+
+    const pid = match.params.id
 
     const [Quantity, setQuantity] = useState("1")
 
@@ -28,11 +31,22 @@ export const ProductScreen = ( { history, match } ) => {
     const { loading:loadingReview, error:errorReview, success } = reviewProduct
 
     useEffect( () => {
+        if(success){
+            window.location.alert("Review Submitted")
+            setRating(0)
+            setComment("")
+            dispatch({type:PRODUCT_REVIEW_RESET})
+        }
         dispatch(listProductDetails(match.params.id))
-    }, [dispatch,match])
+    }, [dispatch,match,success])
 
     const addToCartHandler = () => {
         history.push(`/cart/${match.params.id}?Quantity=${Quantity}`)
+    }
+
+    const submitReviewHandler= (e) => {
+        e.preventDefault()
+        dispatch(addReviewProduct(pid,{rating, comment}))
     }
 
     return (
@@ -115,11 +129,30 @@ export const ProductScreen = ( { history, match } ) => {
             <Row>
                 <Col md={6}>
                     <h4>Reviews</h4>
-                    {product.reviews.length ===0 && <Message variant='primary' >No Reviews</Message>}
                     <ListGroup variant='flush'>
                         <ListGroup.Item>
-                            <h4>Write a review</h4>
-                            {userInfo ? (<h1></h1>) : <Message variant='danger'>Please <Link to="/login">Sign In</Link> to write a review</Message>} 
+                            <h5>Write a review</h5>
+                            {errorReview && <Message variant='danger'>{errorReview}</Message>}
+                            {!userInfo ? <Message variant='danger'>Please <Link to="/login">Sign In</Link> to write a review</Message> : (
+                                <Form onSubmit={submitReviewHandler}>
+                                    <Form.Group controlId='rating' required>
+                                        <Form.Label>Rating</Form.Label>
+                                        <Form.Control as='select' value={rating} onChange={e => setRating(e.target.value)} required>
+                                            <option value=''>Select...</option>
+                                            <option value='1'>1 - Poor</option>
+                                            <option value='2'>2 - Fair</option>
+                                            <option value='3'>3 - Good</option>
+                                            <option value='4'>4 - Very Good</option>
+                                            <option value='5'>5 - Excellent</option>
+                                        </Form.Control>
+                                    </Form.Group>
+                                    <Form.Group controlId='comment'>
+                                        <Form.Label>Comment</Form.Label>
+                                        <Form.Control as="textarea" rows={3} value={comment} onChange={ e => setComment(e.target.value)}></Form.Control>
+                                    </Form.Group>
+                                    <Button className='btn btn-dark rounded sm' onClick={e => submitReviewHandler(e)}>post</Button>
+                                </Form>
+                            )} 
                         </ListGroup.Item>
                         {product.reviews.map(review => (
                             <ListGroup.Item key={review._id}>
@@ -134,6 +167,7 @@ export const ProductScreen = ( { history, match } ) => {
                             </ListGroup.Item>
                         ))}
                     </ListGroup>
+                    {product.reviews.length ===0 && <Message variant='primary' >No Reviews</Message>}
                 </Col>
             </Row>
             </>

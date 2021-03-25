@@ -4,10 +4,19 @@ import products from '../data/products.js'
 
 
 //description      fetch products
-//route            GET/api/products
+//route            GET/api/products?keyword=keyword
 //access           public
 const getProducts = asyncHandler(async (req, res) => {
-    const products = await Product.find({})
+    
+    const keyword = req.query.keyword ? {
+        name:{ 
+            $regex:req.query.keyword,
+            $options:'i'
+        }
+    } : {}
+
+    const products = await Product.find({...keyword})
+    
     res.json(products)
 })
 

@@ -11,11 +11,11 @@ import {
 } from '../constants/productConstants.js'
 import axios from 'axios'
 
-export const listProducts = () => async (dispatch) => {
+export const listProducts = (keyword=" ") => async (dispatch) => {
     try {
         dispatch({ type:PRODUCT_LIST_REQUEST })
 
-        const { data } = await axios.get('/api/products')
+        const { data } = await axios.get(`/api/products?keyword=${keyword}`)
         
         dispatch({ 
             type:PRODUCT_LIST_SUCCESS, 
@@ -63,10 +63,15 @@ export const addReviewProduct = (id, review) => async (dispatch,getState) => {
                 }
             }
 
-            await axios.post(`/api/products/${id}/review`,review,config)
+            const { data } = await axios.post(`/api/products/${id}/review`,review,config)
 
             dispatch({
                 type:PRODUCT_REVIEW_SUCCESS
+            })
+
+            dispatch({
+                type:PRODUCT_DETAILS_SUCCESS,
+                payload: data
             })
         }
         else{

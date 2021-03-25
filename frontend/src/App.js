@@ -44,6 +44,7 @@ function App() {
           <Route path="/product/:id" component={ProductScreen} exact/>
           <Route path="/admin/addproduct" component={CreateProductScreen} exact></Route>
           <Route path="/cart/:id?" component={CartScreen} /> {/* ? in any path says that the passed parameter is optional */}
+          <Route path='/search/:keyword' component={HomeScreen} exact></Route>
           <Route path="/" component={HomeScreen} exact />   {/* component says whichone to open when / achieved and exact syas that excact path is needed */}
         </Container>
       </main>
