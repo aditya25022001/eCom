@@ -5,12 +5,15 @@ import { Loader } from '../components/Loader'
 import { Message } from '../components/Message'
 import { ListGroup, Image, Row, Col, Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
+import { Paginate } from '../components/Paginate'
 import AddIcon from '@material-ui/icons/Add';
 
-export const ProductListAdminScreen = ({history}) => {
+export const ProductListAdminScreen = ({history, match}) => {
+
+    const pageNumber = match.params.pageNumber || 1  
 
     const productListByAdmin = useSelector(state => state.productListByAdmin)
-    const { loading, error, products } = productListByAdmin
+    const { loading, error, products, page, pages } = productListByAdmin
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
@@ -36,10 +39,10 @@ export const ProductListAdminScreen = ({history}) => {
                 history.push('/')
             }
             else{
-                dispatch(listProductsByAdmin())
+                dispatch(listProductsByAdmin(pageNumber))
             }
         }
-    },[dispatch, userInfo, history, successDelete])
+    },[dispatch, userInfo, history, successDelete, pageNumber])
 
     const deleteProductHandler = (id) => {
         if(window.confirm()){
@@ -91,6 +94,7 @@ export const ProductListAdminScreen = ({history}) => {
                 </Button>
             </LinkContainer>
         </ListGroup>
+        <Paginate pages={pages} page={page} isAdmin={userInfo.isAdmin}/>
         </>
 
     )

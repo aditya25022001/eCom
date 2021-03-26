@@ -11,7 +11,6 @@ export const Header = () => {
     const dispatch = useDispatch()
 
     const userLogin = useSelector( state => state.userLogin )
-
     const {userInfo} = userLogin; 
     
     const logOuthandler = () => {
@@ -62,7 +61,7 @@ export const Header = () => {
                                         Users
                                     </NavDropdown.Item>
                                 </LinkContainer>
-                                <LinkContainer to='/admin/products' >
+                                <LinkContainer to='/admin/products/page/1' >
                                     <NavDropdown.Item>
                                         Products
                                     </NavDropdown.Item>

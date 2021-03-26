@@ -359,7 +359,7 @@ export const getUserDetailsByAdmin = (id) => async (dispatch, getState) => {
 }
 
 
-export const listProductsByAdmin = () => async (dispatch, getState) => {
+export const listProductsByAdmin = (pageNumber=' ') => async (dispatch, getState) => {
     try {
         dispatch({ 
             type:PRODUCT_LIST_ADMIN_REQUEST 
@@ -375,7 +375,7 @@ export const listProductsByAdmin = () => async (dispatch, getState) => {
         }
 
         if(userInfo.isAdmin){
-            const { data } = await axios.get('/api/admin/products',config)
+            const { data } = await axios.get(`/api/admin/products/page/${pageNumber}`,config)
             dispatch({ 
                 type:PRODUCT_LIST_ADMIN_SUCCESS, 
                 payload: data

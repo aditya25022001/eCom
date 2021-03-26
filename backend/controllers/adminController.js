@@ -68,15 +68,21 @@ const updateUserAccess = asyncHandler(async(req,res) => {
 //route           GET/api/admin/products
 //access           private/admin
 const getProductListByAdmin = asyncHandler(async (req, res) => {
-    const products = await Product.find({})
+    
+    const pageSize = 12
+    const page = Number(req.params.pageNumber) || 1
+    const count = await Product.countDocuments({})
+    const products = await Product.find({}).limit(pageSize).skip(pageSize*(page-1))
+    
     if(products){
-        res.json(products)
+        res.json({products, page, pages:Math.ceil(count/pageSize)})
     }
     else{
         res.status(401)
         throw new Error('Not Authorized')
     }
 })
+
 
 //description        get product by ID
 //route              GET/api/admin/product/:id
