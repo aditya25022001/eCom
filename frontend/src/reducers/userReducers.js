@@ -154,7 +154,9 @@ export const userListReducer = (state = { users:[] } ,action) => {
         case USER_LIST_SUCCESS:
             return{
                 loading:false,
-                users:action.payload,
+                users:action.payload.users,
+                page:action.payload.page,
+                pages:action.payload.pages,
                 success:true
             }
         case USER_LIST_FAIL:
@@ -329,7 +331,7 @@ export const adminOrderListReducer = (state ={ orders : [] }, action ) => {
         case ORDER_LIST_ADMIN_REQUEST:
             return { loading: true, orders : []}
         case ORDER_LIST_ADMIN_SUCCESS:
-            return { loading:false, orders : action.payload}
+            return { loading:false, orders : action.payload.orders, page:action.payload.page, pages: action.payload.pages}
         case ORDER_LIST_ADMIN_FAIL:
             return { loading:false, error: action.payload }
         default:

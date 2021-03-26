@@ -56,7 +56,7 @@ export const Header = () => {
                         }
                         {userInfo && userInfo.isAdmin && (
                             <NavDropdown title="Admin" id='adminMenu'>
-                                <LinkContainer to='/admin/users' >
+                                <LinkContainer to='/admin/users/page/1' >
                                     <NavDropdown.Item>
                                         Users
                                     </NavDropdown.Item>
@@ -66,7 +66,7 @@ export const Header = () => {
                                         Products
                                     </NavDropdown.Item>
                                 </LinkContainer>
-                                <LinkContainer to='/admin/orders' >
+                                <LinkContainer to='/admin/orders/page/1' >
                                     <NavDropdown.Item>
                                         Orders
                                     </NavDropdown.Item>

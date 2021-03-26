@@ -38,7 +38,7 @@ export const HomeScreen = ({ match }) => {
                                     </Col>
                                 ))}
                             </Row>
-                            <Paginate pages={pages} page={page} keyWord={keyWord ? keyWord : ''}/>
+                            <Paginate pages={pages} page={page} keyWord={keyWord ? keyWord : ''} view='home'/>
                         </>
                     )   
             }

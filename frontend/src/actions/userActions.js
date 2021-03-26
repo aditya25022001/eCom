@@ -223,7 +223,7 @@ export const userMyOrders = () => async (dispatch,getState) => {
     }
 }
 
-export const usersList = () => async(dispatch,getState) => {
+export const usersList = (pageNumber=' ') => async(dispatch,getState) => {
     try {
         dispatch({
             type:USER_LIST_REQUEST
@@ -238,7 +238,7 @@ export const usersList = () => async(dispatch,getState) => {
         }
 
         if(userInfo.isAdmin){
-            const { data } = await axios.get('/api/admin/users',config)
+            const { data } = await axios.get(`/api/admin/users/page/${pageNumber}`,config)
             dispatch({
                 type:USER_LIST_SUCCESS,
                 payload:data
@@ -531,7 +531,7 @@ export const addProduct = (name, category, price, countInStock, description, pub
     }
 }
 
-export const listOrdersByAdmin = () => async (dispatch, getState) => {
+export const listOrdersByAdmin = (pageNumber=' ') => async (dispatch, getState) => {
     try {
         dispatch({ 
             type:ORDER_LIST_ADMIN_REQUEST 
@@ -547,7 +547,7 @@ export const listOrdersByAdmin = () => async (dispatch, getState) => {
         }
 
         if(userInfo.isAdmin){
-            const { data } = await axios.get('/api/admin/orders',config)
+            const { data } = await axios.get(`/api/admin/orders/page/${pageNumber}`,config)
             dispatch({ 
                 type:ORDER_LIST_ADMIN_SUCCESS, 
                 payload: data

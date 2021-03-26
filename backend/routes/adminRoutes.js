@@ -4,9 +4,9 @@ import { protect,admin } from '../middleware/authMiddleware.js'
 
 const router = express.Router()
 
-router.route('/users').get(protect,admin,getUsers)
+router.route('/users/page/:pageNumber').get(protect,admin,getUsers)
 router.route('/products/page/:pageNumber').get(protect,admin,getProductListByAdmin)
-router.route('/orders').get(protect,admin,getOrdersByAdmin)
+router.route('/orders/page/:pageNumber').get(protect,admin,getOrdersByAdmin)
 
 router.route('/product/:id').get(protect,admin,getProductById)
 router.route('/user/:id').get(protect,admin,getUserById)

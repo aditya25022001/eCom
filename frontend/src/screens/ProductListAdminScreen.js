@@ -94,7 +94,7 @@ export const ProductListAdminScreen = ({history, match}) => {
                 </Button>
             </LinkContainer>
         </ListGroup>
-        <Paginate pages={pages} page={page} isAdmin={userInfo.isAdmin}/>
+        <Paginate pages={pages} page={page} isAdmin={userInfo.isAdmin} view='products'/>
         </>
 
     )

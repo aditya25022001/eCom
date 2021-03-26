@@ -7,8 +7,11 @@ import Order from '../models/orderModel.js'
 //route            GET/api/admin/users
 //access           private/admin
 const getUsers = asyncHandler(async (req, res) => {
-    const users = await User.find({})
-    res.json(users)
+    const pageSize = 1
+    const page = Number(req.params.pageNumber) || 1
+    const count = await User.countDocuments({})
+    const users = await User.find({}).limit(pageSize).skip(pageSize*(page-1))
+    res.json({users, page, pages:Math.ceil(count/pageSize)})
 })
 
 //description      delete a user 
@@ -69,7 +72,7 @@ const updateUserAccess = asyncHandler(async(req,res) => {
 //access           private/admin
 const getProductListByAdmin = asyncHandler(async (req, res) => {
     
-    const pageSize = 12
+    const pageSize = 6
     const page = Number(req.params.pageNumber) || 1
     const count = await Product.countDocuments({})
     const products = await Product.find({}).limit(pageSize).skip(pageSize*(page-1))
@@ -173,9 +176,13 @@ const addProduct = asyncHandler(async(req, res) => {
 //route            GET/api/admin/orders
 //access           private/admin
 const getOrdersByAdmin = asyncHandler(async (req, res) => {
-    const orders = await Order.find({}).populate('user', 'id name')
+
+    const pageSize = 10
+    const page = Number(req.params.pageNumber) || 1
+    const count = await Order.countDocuments({})
+    const orders = await Order.find({}).limit(pageSize).skip(pageSize*(page-1)).populate('user', 'id name')
     if(orders){
-        res.json(orders)
+        res.json({orders, page, pages:Math.ceil(count/pageSize)})
     }
     else{
         res.status(401)

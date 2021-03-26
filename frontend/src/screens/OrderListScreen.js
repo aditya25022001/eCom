@@ -6,11 +6,14 @@ import { Message } from '../components/Message'
 import { Loader } from '../components/Loader' 
 import { listOrdersByAdmin } from '../actions/userActions'
 import Tooltip from '@material-ui/core/Tooltip';
+import { Paginate } from '../components/Paginate'
 
-export const OrderListScreen = ({history}) => {
+export const OrderListScreen = ({history, match}) => {
+
+    const pageNumber = match.params.pageNumber || 1
 
     const orderList = useSelector(state => state.orderList)
-    const {loading, error, orders} = orderList
+    const {loading, error, orders, pages, page} = orderList
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
@@ -19,7 +22,7 @@ export const OrderListScreen = ({history}) => {
 
     useEffect(() => {
         if(userInfo && userInfo.isAdmin){
-            dispatch(listOrdersByAdmin())
+            dispatch(listOrdersByAdmin(pageNumber))
         }
         else{
             if(!userInfo.isAdmin){
@@ -29,15 +32,15 @@ export const OrderListScreen = ({history}) => {
                 history.push('/login')
             }
         }
-    },[dispatch,history,userInfo])
+    },[dispatch,history,userInfo,pageNumber])
 
     return (
         <>
           <h1>Orders</h1>
           {loading ? <Loader/>
           : error ? <Message variant='danger'>{error}</Message>
-          :(
-          <Table striped responsive hover bordered className='table-sm'>
+          :(<>
+                <Table striped responsive hover bordered className='table-sm'>
                   <thead>
                       <tr>
                           <th>USER</th>
@@ -75,7 +78,10 @@ export const OrderListScreen = ({history}) => {
                           </tr>
                       ))}
                   </tbody>
-              </Table>)
+              </Table>
+              <Paginate pages={pages} page={page} isAdmin={userInfo.isAdmin} view='orders'/>
+            </>
+            )
           }
         </>
     )

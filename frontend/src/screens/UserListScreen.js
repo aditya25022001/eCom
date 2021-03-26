@@ -5,11 +5,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Message } from '../components/Message' 
 import { Loader } from '../components/Loader' 
 import { usersList, adminDeleteUser } from '../actions/userActions'
+import { Paginate } from '../components/Paginate'
 
-export const UserListScreen = ({history}) => {
+export const UserListScreen = ({history, match}) => {
+
+    const pageNumber = match.params.pageNumber || 1
 
     const listUser = useSelector(state => state.listUser)
-    const {loading, error, users} = listUser
+    const {loading, error, users, pages, page} = listUser
 
     const userLogin = useSelector(state => state.userLogin)
     const { userInfo } = userLogin
@@ -28,10 +31,10 @@ export const UserListScreen = ({history}) => {
                 history.push('/')
             }
             else{
-                dispatch(usersList())
+                dispatch(usersList(pageNumber))
             }
         }
-    },[dispatch,success,history])
+    },[dispatch,success,history,pageNumber])
 
     const deleteUserHandler = (id) => {
         if(window.confirm()){
@@ -46,7 +49,7 @@ export const UserListScreen = ({history}) => {
           ? <Loader/> 
           : error 
           ? <Message variant='danger'>{error}</Message>
-          :(
+          :(<>
               <Table striped responsive hover bordered className='table-sm'>
                   <thead>
                       <tr>
@@ -78,6 +81,8 @@ export const UserListScreen = ({history}) => {
                       ))}
                   </tbody>
               </Table>
+            <Paginate pages={pages} page={page} isAdmin={userInfo.isAdmin} view='users'/>
+            </>
           )
         }  
         </>
