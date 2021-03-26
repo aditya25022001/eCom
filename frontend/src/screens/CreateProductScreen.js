@@ -25,7 +25,7 @@ export const CreateProductScreen = ({history}) => {
     
     useEffect(()=>{
         if(success){
-            history.push('/admin/products')
+            history.push('/admin/products/page/1')
         }
     },[success, history])
     

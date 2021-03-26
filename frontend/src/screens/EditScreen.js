@@ -29,7 +29,7 @@ export const EditScreen = ({match, history}) => {
     useEffect(()=>{
         if(success){
             dispatch({type:USER_UPDATE_RESET})
-            history.push('/admin/users')
+            history.push('/admin/users/page/1')
         }
         else{
             if(!user || !user.name || user._id!==uid){

@@ -29,7 +29,7 @@ export const OrderEditScreen = ({match, history}) => {
     useEffect(()=>{
         if(success){
             dispatch({type:ADMIN_ORDER_UPDATE_RESET})
-            history.push('/admin/orders')
+            history.push('/admin/orders/page/1')
         }
         else{
             if(!order || order._id!==oid){

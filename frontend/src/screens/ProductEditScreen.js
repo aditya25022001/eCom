@@ -33,7 +33,7 @@ export const ProductEditScreen = ({match, history}) => {
         if(success){
             dispatch({ type: ADMIN_PRODUCT_UPDATE_RESET })
             dispatch(getProductDetailsByAdmin(pid))
-            history.push('/admin/products')
+            history.push('/admin/products/page/1')
         }
         else{
             if(!product || product._id!==pid){
