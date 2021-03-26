@@ -6,10 +6,15 @@ const router = express.Router()
 
 router.route('/').get(getProducts)
 
+// make sure each route is unique
+// here '/:id' and '/top' are treated same since after '/' there is only one parameter 
+//therefore '/:id' must be added after /top since it involves querying with database
+
+router.route('/top').get(getTopProducts)
+
 router.route('/:id').get(getProductById)
 
 router.route('/:id/review').post(protect, addReview)
 
-router.route('/top').get(getTopProducts)
 
 export default router;

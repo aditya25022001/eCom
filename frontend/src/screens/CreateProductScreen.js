@@ -61,7 +61,7 @@ export const CreateProductScreen = ({history}) => {
 
     return (
         <>
-            <Link to='/admin/products' className='btn btn-dark my-3'>
+            <Link to='/admin/products/page/1' className='btn btn-dark my-3'>
                 Go Back
             </Link>
             <h3>Add new product</h3>

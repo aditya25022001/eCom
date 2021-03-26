@@ -50,7 +50,7 @@ export const EditScreen = ({match, history}) => {
 
     return (
         <>
-            <Link to='/admin/users' className='btn btn-dark my-3'>
+            <Link to='/admin/users/page/1' className='btn btn-dark my-3'>
                 Go Back
             </Link>
             <h3>Update User Access</h3>

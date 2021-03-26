@@ -1,7 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import { Row, Col } from 'react-bootstrap';
 import { Product } from '../components/Product';
-// import  axios from 'axios';
+import { Link } from 'react-router-dom'
+
+// import { Meta } from '../components/Meta'
+
 import { Paginate } from '../components/Paginate'
 import { Message } from '../components/Message'
 import { Loader } from '../components/Loader'
@@ -27,12 +30,15 @@ export const HomeScreen = ({ match }) => {
     
     return (
         <>
-            {!keyWord && (
+   
+   {/* React helmet not working */}
+            {/* <Meta /> */}
+            {!keyWord ? (
             <>
                 <h2>Top rated books!</h2>
                 <ProductCarousel/>
             </>
-            ) }
+            ) : <Link to="/" className='btn btn-dark rounded mb-2' >Go Back</Link> }
             <h2>Explore more books!</h2>
             { loading ? ( <Loader /> ) 
                     : error 

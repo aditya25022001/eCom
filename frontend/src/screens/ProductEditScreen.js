@@ -81,7 +81,7 @@ export const ProductEditScreen = ({match, history}) => {
 
     return (
         <>
-            <Link to='/admin/products' className='btn btn-dark my-3'>
+            <Link to='/admin/products/page/1' className='btn btn-dark my-3'>
                 Go Back
             </Link>
             <h3>Update Product Details</h3>

@@ -7,7 +7,7 @@ import Order from '../models/orderModel.js'
 //route            GET/api/admin/users
 //access           private/admin
 const getUsers = asyncHandler(async (req, res) => {
-    const pageSize = 1
+    const pageSize = 5
     const page = Number(req.params.pageNumber) || 1
     const count = await User.countDocuments({})
     const users = await User.find({}).limit(pageSize).skip(pageSize*(page-1))

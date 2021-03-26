@@ -43,7 +43,7 @@ export const OrderScreenById = ({history, match}) => {
     return (
         <>
             <h3>{nameUrl}'s orders</h3>
-            <Link to="/admin/orders" className="btn btn-dark my-3 rounded" >
+            <Link to="/admin/orders/page/1" className="btn btn-dark my-3 rounded" >
                 Go Back
             </Link>
             { loading ? <Loader/>

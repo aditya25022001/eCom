@@ -52,7 +52,7 @@ export const OrderEditScreen = ({match, history}) => {
 
     return (
         <>
-            <Link to='/admin/orders' className='btn btn-dark my-3'>
+            <Link to='/admin/orders/page/1' className='btn btn-dark my-3'>
                 Go Back
             </Link>
             <h3>Update Order Status</h3>
