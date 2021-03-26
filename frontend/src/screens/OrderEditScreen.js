@@ -48,7 +48,6 @@ export const OrderEditScreen = ({match, history}) => {
     const submitHandlerAdmin = (e) => {
         e.preventDefault()
         dispatch(adminUpdateOrder({_id:oid, delivered}))
-        console.log(success)
     }
 
     return (

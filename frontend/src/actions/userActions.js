@@ -207,8 +207,6 @@ export const userMyOrders = () => async (dispatch,getState) => {
         }
 
         const {data} = await axios.get('/api/users/profile/orders',config)
-        
-        console.log(data)
 
         dispatch({
             type:USER_MY_ORDERS_SUCCESS,
@@ -512,8 +510,6 @@ export const addProduct = (name, category, price, countInStock, description, pub
         if(userInfo.isAdmin){
             
             const { data } = await axios.post('/api/admin/addproduct', {name, category, price, countInStock, description, publisher, image}, config)
-            
-            console.log(data);
 
             dispatch({
                 type:PRODUCT_ADD_SUCCESS,
@@ -581,8 +577,6 @@ export const getOrderDetailsByAdmin = (id, nameUrl) => async (dispatch, getState
 
         if(userInfo.isAdmin){
             const { data } = await axios.get(`/api/admin/view/order/${id}/${nameUrl}`, config)
-    
-            console.log(data);
     
             dispatch({
                 type:ORDER_DETAILS_ADMIN_SUCCESS,

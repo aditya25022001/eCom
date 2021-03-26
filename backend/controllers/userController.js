@@ -112,7 +112,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 //access       private
 const getMyOrders = asyncHandler(async (req,res) => {
     const data = await Order.find({ user:req.user._id })
-    console.log(data)
     res.json([...data])
 })
 

@@ -148,7 +148,6 @@ const deleteProduct = asyncHandler(async (req, res) => {
 //access             private/admin
 const addProduct = asyncHandler(async(req, res) => {
     const { name, category, price, countInStock, description, publisher, image} = req.body;
-    console.log(req.body);
     // const product = new Product({
     //     user:req.user._id,
     //     name:name,

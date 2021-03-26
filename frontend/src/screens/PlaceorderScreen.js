@@ -41,7 +41,6 @@ export const PlaceorderScreen = ({history}) => {
     },[history,success])
 
     const placeOrderHandler = (e) => {
-        console.log(cartItems)
         dispatch(orderCreate({
             orderItems:cartItems,
 

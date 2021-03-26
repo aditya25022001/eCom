@@ -56,7 +56,6 @@ export const CreateProductScreen = ({history}) => {
 
     const createSubmitHandler = (e) => {
         e.preventDefault()
-        console.log({name, category, price, countInStock, description, publisher, image});
         dispatch(addProduct(name, category, price, countInStock, description, publisher, image))
     }
 

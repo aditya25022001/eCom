@@ -54,7 +54,6 @@ export const ProductEditScreen = ({match, history}) => {
     const updateSubmitHandler = (e) => {
         e.preventDefault()
         dispatch(adminUpdateProduct({_id:pid, name, category, price, description, countInStock, publisher, image}))
-        console.log({name},{price},{category},{image},{description},{countInStock},{publisher})
     }
     
     //uploading file via muler but not working fine 
