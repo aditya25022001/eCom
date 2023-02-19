@@ -7,6 +7,7 @@ import userRoutes from './routes/userRoutes.js'
 import orderRoutes from './routes/orderRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import { notFound, errorHandler } from './middleware/errorMiddleware.js'
+import cors from 'cors';
 
 dotenv.config();
 
@@ -15,6 +16,11 @@ connectDB()
 const PORT = process.env.PORT || 5000
 
 const app = express()
+
+app.use(cors({
+    origin:process.env.ALLOWED.split(" "),
+    methods:["GET","PUT","POST","DELETE"]
+}))
 
 app.use(express.json())
 
@@ -28,26 +34,7 @@ app.use('/api/admin', adminRoutes)
 
 app.get('/api/config/paypal', (req,res) => res.send(process.env.PAYPAL_CLIENT_ID))
 
-const __dirname = path.resolve()
-
-if(process.env.NODE_ENV==='production'){
-   
-    app.use(express.static(path.join(__dirname,'/frontend/build')))
-
-    app.get('*', (req,res) => res.sendFile(path.resolve(__dirname,'frontend','build','index.html')))
-}
-else{
-    app.get('/', (req, res)=>{
-        res.send('API is running')
-    })
-    
-}
-
-// import uploadRoutes from './routes/uploadRoutes.js'
-// app.use('/api/upload', uploadRoutes)
-// //to convert __dirname available in the es modules also
-// const __dirname = path.resolve()
-// app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+app.get("/",(req,res) => res.send("Hello world ecom book server"));
 
 app.use(notFound)
 
