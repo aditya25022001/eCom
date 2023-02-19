@@ -14,11 +14,13 @@ import {
 } from '../constants/productConstants.js'
 import axios from 'axios'
 
+const apiBaseUrl = "https://bookfullstack.onrender.com";
+
 export const listProducts = (keyword=' ', pageNumber=' ') => async (dispatch) => {
     try {
         dispatch({ type:PRODUCT_LIST_REQUEST })
 
-        const { data } = await axios.get(`/api/products?keyword=${keyword}&pageNumber=${pageNumber}`)
+        const { data } = await axios.get(`${apiBaseUrl}/api/products?keyword=${keyword}&pageNumber=${pageNumber}`)
         
         dispatch({ 
             type:PRODUCT_LIST_SUCCESS, 
@@ -36,7 +38,7 @@ export const listProductDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type:PRODUCT_DETAILS_REQUEST })
 
-        const { data } = await axios.get(`/api/products/${id}`)
+        const { data } = await axios.get(`${apiBaseUrl}/api/products/${id}`)
         
         dispatch({ 
             type:PRODUCT_DETAILS_SUCCESS, 
@@ -66,7 +68,7 @@ export const addReviewProduct = (id, review) => async (dispatch,getState) => {
                 }
             }
 
-            const { data } = await axios.post(`/api/products/${id}/review`,review,config)
+            const { data } = await axios.post(`${apiBaseUrl}/api/products/${id}/review`,review,config)
 
             dispatch({
                 type:PRODUCT_REVIEW_SUCCESS
@@ -93,7 +95,7 @@ export const listTopProducts = () => async (dispatch) => {
     try {
         dispatch({ type:TOP_PRODUCT_LIST_REQUEST })
 
-        const { data } = await axios.get('/api/products/top')
+        const { data } = await axios.get(`${apiBaseUrl}/api/products/top`)
         
         dispatch({ 
             type:TOP_PRODUCT_LIST_SUCCESS, 

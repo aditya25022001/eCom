@@ -61,6 +61,8 @@ import { USER_DETAILS_FAIL,
 
 import { PRODUCT_DETAILS_SUCCESS } from '../constants/productConstants'
 
+const apiBaseUrl = "https://bookfullstack.onrender.com";
+
 export const register = (name, email, password) => async (dispatch) => {
     try {
         dispatch({
@@ -73,7 +75,7 @@ export const register = (name, email, password) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('/api/users', {name, email, password}, config)
+        const { data } = await axios.post(`${apiBaseUrl}/api/users`, {name, email, password}, config)
     
         dispatch({
             type:USER_REGISTER_SUCCESS,
@@ -107,7 +109,7 @@ export const login = (email, password) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('/api/users/login', {email,password}, config)
+        const { data } = await axios.post(`${apiBaseUrl}/api/users/login`, {email,password}, config)
     
         dispatch({
             type:USER_LOGIN_SUCCESS,
@@ -137,7 +139,7 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
             }
         }
 
-        const { data } = await axios.get(`/api/users/${id}`, config)
+        const { data } = await axios.get(`${apiBaseUrl}/api/users/${id}`, config)
 
         dispatch({
             type:USER_DETAILS_SUCCESS,
@@ -167,7 +169,7 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
             }
         }
 
-        const { data } = await axios.put('/api/users/profile', user, config)
+        const { data } = await axios.put(`${apiBaseUrl}/api/users/profile`, user, config)
     
         dispatch({
             type:USER_UPDATE_PROFILE_SUCCESS,
@@ -206,7 +208,7 @@ export const userMyOrders = () => async (dispatch,getState) => {
             }
         }
 
-        const {data} = await axios.get('/api/users/profile/orders',config)
+        const {data} = await axios.get(`${apiBaseUrl}/api/users/profile/orders`,config)
 
         dispatch({
             type:USER_MY_ORDERS_SUCCESS,
@@ -236,7 +238,7 @@ export const usersList = (pageNumber=' ') => async(dispatch,getState) => {
         }
 
         if(userInfo.isAdmin){
-            const { data } = await axios.get(`/api/admin/users/page/${pageNumber}`,config)
+            const { data } = await axios.get(`${apiBaseUrl}/api/admin/users/page/${pageNumber}`,config)
             dispatch({
                 type:USER_LIST_SUCCESS,
                 payload:data
@@ -269,7 +271,7 @@ export const adminDeleteUser = (id) => async (dispatch,getState) => {
         }
 
         if(userInfo.isAdmin){
-            const { data } = await axios.delete(`/api/admin/deleteuser/${id}`,config)
+            const { data } = await axios.delete(`${apiBaseUrl}/api/admin/deleteuser/${id}`,config)
             dispatch({
                 type:USER_DELETE_SUCCESS
             })
@@ -303,7 +305,7 @@ export const adminUpdateUser = (user) => async(dispatch,getState) => {
         } 
 
         if(userInfo.isAdmin){
-            const { data } = await axios.put(`/api/admin/user/${user._id}/edit`,user,config)
+            const { data } = await axios.put(`${apiBaseUrl}/api/admin/user/${user._id}/edit`,user,config)
 
             dispatch({
                 type:USER_UPDATE_SUCCESS,
@@ -341,7 +343,7 @@ export const getUserDetailsByAdmin = (id) => async (dispatch, getState) => {
             }
         }
 
-        const { data } = await axios.get(`/api/admin/user/${id}`, config)
+        const { data } = await axios.get(`${apiBaseUrl}/api/admin/user/${id}`, config)
 
         dispatch({
             type:USER_DETAILS_ADMIN_SUCCESS,
@@ -355,7 +357,6 @@ export const getUserDetailsByAdmin = (id) => async (dispatch, getState) => {
         })
     }
 }
-
 
 export const listProductsByAdmin = (pageNumber=' ') => async (dispatch, getState) => {
     try {
@@ -373,7 +374,7 @@ export const listProductsByAdmin = (pageNumber=' ') => async (dispatch, getState
         }
 
         if(userInfo.isAdmin){
-            const { data } = await axios.get(`/api/admin/products/page/${pageNumber}`,config)
+            const { data } = await axios.get(`${apiBaseUrl}/api/admin/products/page/${pageNumber}`,config)
             dispatch({ 
                 type:PRODUCT_LIST_ADMIN_SUCCESS, 
                 payload: data
@@ -406,7 +407,7 @@ export const adminUpdateProduct = (product) => async(dispatch,getState) => {
         } 
 
         if(userInfo.isAdmin){
-            const { data } = await axios.put(`/api/admin/product/${product._id}/edit`,product,config)
+            const { data } = await axios.put(`${apiBaseUrl}/api/admin/product/${product._id}/edit`,product,config)
 
             dispatch({
                 type:ADMIN_PRODUCT_UPDATE_SUCCESS,
@@ -444,7 +445,7 @@ export const getProductDetailsByAdmin = (id) => async (dispatch, getState) => {
             }
         }
 
-        const { data } = await axios.get(`/api/admin/product/${id}`, config)
+        const { data } = await axios.get(`${apiBaseUrl}/api/admin/product/${id}`, config)
 
         dispatch({
             type:PRODUCT_DETAILS_ADMIN_SUCCESS,
@@ -474,7 +475,7 @@ export const deleteProductByAdmin = (id) => async(dispatch, getState) => {
         }
 
         if(userInfo.isAdmin){
-            const { data } = await axios.delete(`/api/admin/deleteproduct/${id}`,config)
+            const { data } = await axios.delete(`${apiBaseUrl}/api/admin/deleteproduct/${id}`,config)
 
             dispatch({
                 type:PRODUCT_DELETE_SUCCESS,
@@ -509,7 +510,7 @@ export const addProduct = (name, category, price, countInStock, description, pub
 
         if(userInfo.isAdmin){
             
-            const { data } = await axios.post('/api/admin/addproduct', {name, category, price, countInStock, description, publisher, image}, config)
+            const { data } = await axios.post(`${apiBaseUrl}/api/admin/addproduct`, {name, category, price, countInStock, description, publisher, image}, config)
 
             dispatch({
                 type:PRODUCT_ADD_SUCCESS,
@@ -543,7 +544,7 @@ export const listOrdersByAdmin = (pageNumber=' ') => async (dispatch, getState) 
         }
 
         if(userInfo.isAdmin){
-            const { data } = await axios.get(`/api/admin/orders/page/${pageNumber}`,config)
+            const { data } = await axios.get(`${apiBaseUrl}/api/admin/orders/page/${pageNumber}`,config)
             dispatch({ 
                 type:ORDER_LIST_ADMIN_SUCCESS, 
                 payload: data
@@ -576,7 +577,7 @@ export const getOrderDetailsByAdmin = (id, nameUrl) => async (dispatch, getState
         }
 
         if(userInfo.isAdmin){
-            const { data } = await axios.get(`/api/admin/view/order/${id}/${nameUrl}`, config)
+            const { data } = await axios.get(`${apiBaseUrl}/api/admin/view/order/${id}/${nameUrl}`, config)
     
             dispatch({
                 type:ORDER_DETAILS_ADMIN_SUCCESS,
@@ -611,7 +612,7 @@ export const getOrderDetailsByAdminForUpdate = (id) => async (dispatch, getState
         }
 
         if(userInfo.isAdmin){
-            const { data } = await axios.get(`/api/admin/order/${id}`, config)
+            const { data } = await axios.get(`${apiBaseUrl}/api/admin/order/${id}`, config)
     
             dispatch({
                 type:ORDER_DETAILS_ADMIN_UPDATE_SUCCESS,
@@ -646,7 +647,7 @@ export const adminUpdateOrder = (order) => async(dispatch,getState) => {
         } 
 
         if(userInfo.isAdmin){
-            const { data } = await axios.put(`/api/admin/order/${order._id}/edit`,order,config)
+            const { data } = await axios.put(`${apiBaseUrl}/api/admin/order/${order._id}/edit`,order,config)
 
             dispatch({
                 type:ADMIN_ORDER_UPDATE_SUCCESS,

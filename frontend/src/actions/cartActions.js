@@ -1,8 +1,10 @@
 import axios from 'axios'
 import { CART_ADD_ITEM, CART_REMOVE_ITEM, CART_SAVE_SHIPPING_ADDRESS, CART_SAVE_PAYMENT_METHOD } from '../constants/cartConstants'
 
+const apiBaseUrl = "https://bookfullstack.onrender.com";
+
 export const addToCart = ( id, Quantity) => async (dispatch, getState) => {
-    const { data } = await axios.get(`/api/products/${id}`)
+    const { data } = await axios.get(`${apiBaseUrl}/api/products/${id}`)
     dispatch({
         type: CART_ADD_ITEM,
         payload:{
